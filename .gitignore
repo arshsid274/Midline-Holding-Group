@@ -1,0 +1,25 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# editor
+.vscode/
+.idea/
+
+# Next.js (for midline-next subfolder)
+midline-next/.next/
+midline-next/out/
+midline-next/node_modules/
+
+# env
+midline-next/.env
+midline-next/.env.local
+midline-next/.env*.local
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+
+# Vercel
+.vercel
