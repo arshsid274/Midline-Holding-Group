@@ -26,51 +26,73 @@ export default function OrbitalRing() {
   const floatRefs      = useRef<(HTMLDivElement | null)[]>([])
 
   useEffect(() => {
-    const ctx = gsap.context(() => {
-      // Position orbs via trigonometry
-      ORB_DATA.forEach((data, i) => {
-        const rad = data.angle * (Math.PI / 180)
-        gsap.set(positionerRefs.current[i], {
-          left: '50%', top: '50%',
-          x: Math.cos(rad) * RADIUS,
-          y: Math.sin(rad) * RADIUS,
-          xPercent: -50, yPercent: -50,
-        })
+    const el = compRef.current
+    if (!el) return
+
+    // Set initial hidden states before observer fires
+    gsap.set(textRef.current, { opacity: 0, y: 24 })
+    gsap.set(floatRefs.current, { scale: 0 })
+
+    // Position orbs via trigonometry immediately (layout only, not visible yet)
+    ORB_DATA.forEach((data, i) => {
+      const rad = data.angle * (Math.PI / 180)
+      gsap.set(positionerRefs.current[i], {
+        left: '50%', top: '50%',
+        x: Math.cos(rad) * RADIUS,
+        y: Math.sin(rad) * RADIUS,
+        xPercent: -50, yPercent: -50,
       })
+    })
 
-      const spinDuration = 5
+    let ctx: ReturnType<typeof gsap.context> | null = null
 
-      gsap.to(textRef.current, { opacity: 1, y: 0, duration: 1.2, ease: 'power2.out', delay: 0.4 })
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return
+        observer.disconnect()
 
-      gsap.to(floatRefs.current, {
-        scale: 1, duration: 0.8, stagger: 0.05, ease: 'back.out(1.5)',
-      })
+        const spinDuration = 5
 
-      gsap.to(ringRef.current, {
-        rotation: 720, duration: spinDuration, ease: 'power4.out',
-      })
+        ctx = gsap.context(() => {
+          gsap.to(textRef.current, { opacity: 1, y: 0, duration: 1.2, ease: 'power2.out', delay: 0.3 })
 
-      gsap.to(counterRefs.current, {
-        rotation: -720, duration: spinDuration, ease: 'power4.out',
-      })
+          gsap.to(floatRefs.current, {
+            scale: 1, duration: 0.8, stagger: 0.05, ease: 'back.out(1.5)',
+          })
 
-      floatRefs.current.forEach((orb) => {
-        gsap.to(orb, {
-          x: -8 + Math.random() * 16,
-          duration: 3 + Math.random() * 2,
-          repeat: -1, yoyo: true, ease: 'sine.inOut',
-          delay: spinDuration + Math.random(),
-        })
-        gsap.to(orb, {
-          y: -8 + Math.random() * 16,
-          duration: 3 + Math.random() * 2,
-          repeat: -1, yoyo: true, ease: 'sine.inOut',
-          delay: spinDuration + Math.random(),
-        })
-      })
-    }, compRef)
+          gsap.to(ringRef.current, {
+            rotation: 720, duration: spinDuration, ease: 'power4.out',
+          })
 
-    return () => ctx.revert()
+          gsap.to(counterRefs.current, {
+            rotation: -720, duration: spinDuration, ease: 'power4.out',
+          })
+
+          floatRefs.current.forEach((orb) => {
+            gsap.to(orb, {
+              x: -8 + Math.random() * 16,
+              duration: 3 + Math.random() * 2,
+              repeat: -1, yoyo: true, ease: 'sine.inOut',
+              delay: spinDuration + Math.random(),
+            })
+            gsap.to(orb, {
+              y: -8 + Math.random() * 16,
+              duration: 3 + Math.random() * 2,
+              repeat: -1, yoyo: true, ease: 'sine.inOut',
+              delay: spinDuration + Math.random(),
+            })
+          })
+        }, el)
+      },
+      { threshold: 0.25 }
+    )
+
+    observer.observe(el)
+
+    return () => {
+      observer.disconnect()
+      ctx?.revert()
+    }
   }, [])
 
   return (
