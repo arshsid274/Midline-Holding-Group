@@ -1,12 +1,11 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import Image from 'next/image'
-import { MIDLINE_SECTORS } from '@/lib/data'
-import SectorCard from '@/components/SectorCard'
 import PreviewCard from '@/components/PreviewCard'
 import HeroStats from '@/components/HeroStats'
 import RevealOnScroll from '@/components/RevealOnScroll'
 import OrbitalRing from '@/components/OrbitalRing'
+import SectorCarousel from '@/components/SectorCarousel'
 
 export const metadata: Metadata = {
   title: 'Midline Investment — Multi-Sector Holding Group, Dubai UAE',
@@ -59,22 +58,8 @@ export default function HomePage() {
       {/* ── ORBITAL RING ── */}
       <OrbitalRing />
 
-      {/* ── SECTOR PREVIEW ── */}
-      <section className="page-section">
-        <RevealOnScroll className="section-label">Our Sectors</RevealOnScroll>
-        <RevealOnScroll className="section-title">
-          Eight industries. <em>One vision.</em>
-        </RevealOnScroll>
-        <RevealOnScroll className="section-body">
-          Midline's portfolio spans essential and high-growth industries — from energy and aviation to food,
-          pharma, and premium retail.
-        </RevealOnScroll>
-        <div className="sectors-grid">
-          {Object.entries(MIDLINE_SECTORS).map(([key, sector]) => (
-            <SectorCard key={key} sectorKey={key} sector={sector} mode="preview" />
-          ))}
-        </div>
-      </section>
+      {/* ── SECTOR CAROUSEL ── */}
+      <SectorCarousel />
 
       {/* ── WHY MIDLINE ── */}
       <section className="page-section section-shell">
