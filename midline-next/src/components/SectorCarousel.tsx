@@ -2,10 +2,21 @@
 
 import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
+import {
+  Plane,
+  HardHat,
+  Apple,
+  Flame,
+  Sparkles,
+  Sofa,
+  Wrench,
+  Pill,
+  type LucideIcon,
+} from 'lucide-react'
 
 type Sector = {
   id: number
-  icon: string
+  Icon: LucideIcon
   name: string
   desc: string
   count: string
@@ -15,49 +26,49 @@ type Sector = {
 
 const SECTORS: Sector[] = [
   {
-    id: 1, icon: '✈', name: 'Aviation Services',
+    id: 1, Icon: Plane, name: 'Aviation Services',
     desc: 'Private jet charter, aircraft management, MRO, and cargo services from Dubai.',
     count: '1 COMPANY', href: '/companies',
-    img: 'https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=1200&auto=format&fit=crop',
+    img: '/assets/Airlines_Thumbnail.png',
   },
   {
-    id: 2, icon: '🏗', name: 'Construction & Contracting',
+    id: 2, Icon: HardHat, name: 'Construction & Contracting',
     desc: 'General contracting, architecture, civil engineering, and real estate across UAE.',
     count: '5 COMPANIES', href: '/companies',
     img: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=1200&auto=format&fit=crop',
   },
   {
-    id: 3, icon: '🍊', name: 'Food Industry',
+    id: 3, Icon: Apple, name: 'Food Industry',
     desc: 'Food trading, manufacturing, juice, dairy, pasta, and bottled water production.',
     count: '8 COMPANIES', href: '/companies',
     img: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1200&auto=format&fit=crop',
   },
   {
-    id: 4, icon: '⛽', name: 'Oil & Gas Services',
+    id: 4, Icon: Flame, name: 'Oil & Gas Services',
     desc: 'Petroleum services, exploration support, logistics and supply chain management.',
     count: '3 COMPANIES', href: '/companies',
     img: 'https://images.unsplash.com/photo-1518709766631-a6a7f45921c3?q=80&w=1200&auto=format&fit=crop',
   },
   {
-    id: 5, icon: '✨', name: 'Perfumes & Beauty',
+    id: 5, Icon: Sparkles, name: 'Perfumes & Beauty',
     desc: 'Luxury Arabic and French fragrances, present in 7+ countries worldwide.',
     count: '2 COMPANIES', href: '/companies',
     img: 'https://images.unsplash.com/photo-1560769629-975ec94e6a86?q=80&w=1200&auto=format&fit=crop',
   },
   {
-    id: 6, icon: '🛋', name: 'Al Sanidan Furniture',
+    id: 6, Icon: Sofa, name: 'Al Sanidan Furniture',
     desc: 'Premium Turkish-crafted furniture for homes across Dubai and Sharjah, UAE.',
     count: '1 COMPANY', href: '/companies',
     img: 'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=1200&auto=format&fit=crop',
   },
   {
-    id: 7, icon: '🔧', name: 'Auto Spare Parts',
+    id: 7, Icon: Wrench, name: 'Auto Spare Parts',
     desc: 'Auto spare parts for Japanese, Korean, and American vehicles — ISO certified.',
     count: '2 COMPANIES', href: '/companies',
     img: 'https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=1200&auto=format&fit=crop',
   },
   {
-    id: 8, icon: '💊', name: 'Pharma Industry',
+    id: 8, Icon: Pill, name: 'Pharma Industry',
     desc: 'Pharmaceutical manufacturing and distribution across UAE and Libya.',
     count: '2 COMPANIES', href: '/companies',
     img: 'https://images.unsplash.com/photo-1585435557343-3b092031a831?q=80&w=1200&auto=format&fit=crop',
@@ -161,7 +172,7 @@ export default function SectorCarousel() {
             <img src={s.img} alt={s.name} draggable={false} className="sc-item-img" />
 
             <div className="sc-glass">
-              <div className="sc-glass-icon">{s.icon}</div>
+              <div className="sc-glass-icon"><s.Icon size={22} strokeWidth={1.5} /></div>
               <div className="sc-glass-name">{s.name}</div>
               <div className="sc-glass-desc">{s.desc}</div>
               <div className="sc-glass-footer">
@@ -193,7 +204,7 @@ export default function SectorCarousel() {
           <button className="sc-back" onClick={closeDetail}>← Back</button>
 
           <div className="sc-detail-content" onClick={(e) => e.stopPropagation()}>
-            <div className="sc-detail-icon">{detailData.icon}</div>
+            <div className="sc-detail-icon"><detailData.Icon size={36} strokeWidth={1.5} /></div>
             <h2 className="sc-detail-title">{detailData.name}</h2>
             <p className="sc-detail-desc">{detailData.desc}</p>
             <span className="sc-detail-count">{detailData.count}</span>
