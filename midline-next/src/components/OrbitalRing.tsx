@@ -4,17 +4,17 @@ import { useEffect, useRef } from 'react'
 import gsap from 'gsap'
 
 const ORB_DATA = [
-  { size: 140, angle: 180, img: 'https://picsum.photos/seed/laptop/300/300' },
-  { size: 110, angle: 235, img: 'https://picsum.photos/seed/flex/300/300' },
-  { size: 90,  angle: 275, img: 'https://picsum.photos/seed/white/300/300' },
-  { size: 95,  angle: 325, img: 'https://picsum.photos/seed/phone/300/300' },
-  { size: 110, angle: 15,  img: 'https://picsum.photos/seed/sky/300/300' },
-  { size: 100, angle: 55,  img: 'https://picsum.photos/seed/desk2/300/300' },
-  { size: 85,  angle: 95,  img: 'https://picsum.photos/seed/desk1/300/300' },
-  { size: 90,  angle: 140, img: 'https://picsum.photos/seed/dark/300/300' },
+  { size: 170, angle: 180, img: 'https://picsum.photos/seed/laptop/300/300', sector: 'Aviation' },
+  { size: 135, angle: 235, img: 'https://picsum.photos/seed/flex/300/300',   sector: 'Construction' },
+  { size: 112, angle: 275, img: 'https://picsum.photos/seed/white/300/300',  sector: 'Food Industry' },
+  { size: 118, angle: 325, img: 'https://picsum.photos/seed/phone/300/300',  sector: 'Oil & Gas' },
+  { size: 135, angle: 15,  img: 'https://picsum.photos/seed/sky/300/300',    sector: 'Perfumes' },
+  { size: 122, angle: 55,  img: 'https://picsum.photos/seed/desk2/300/300',  sector: 'Furniture' },
+  { size: 105, angle: 95,  img: 'https://picsum.photos/seed/desk1/300/300',  sector: 'Auto Parts' },
+  { size: 112, angle: 140, img: 'https://picsum.photos/seed/dark/300/300',   sector: 'Pharma' },
 ]
 
-const RADIUS = 320
+const RADIUS = 370
 
 export default function OrbitalRing() {
   const compRef   = useRef<HTMLDivElement>(null)
@@ -24,17 +24,17 @@ export default function OrbitalRing() {
   const positionerRefs = useRef<(HTMLDivElement | null)[]>([])
   const counterRefs    = useRef<(HTMLDivElement | null)[]>([])
   const floatRefs      = useRef<(HTMLDivElement | null)[]>([])
+  const labelRefs      = useRef<(HTMLDivElement | null)[]>([])
 
   useEffect(() => {
     const el = compRef.current
     if (!el) return
 
-    // Hide the entire stage — nothing visible until scroll trigger fires
     gsap.set(el, { opacity: 0 })
-    gsap.set(textRef.current, { opacity: 0, y: 24 })
+    gsap.set(textRef.current, { opacity: 0 })
     gsap.set(floatRefs.current, { scale: 0 })
+    gsap.set(labelRefs.current, { opacity: 0, y: 8 })
 
-    // Position orbs via trigonometry (layout only, hidden at scale 0)
     ORB_DATA.forEach((data, i) => {
       const rad = data.angle * (Math.PI / 180)
       gsap.set(positionerRefs.current[i], {
@@ -57,9 +57,8 @@ export default function OrbitalRing() {
         const spinDuration = 5
 
         ctx = gsap.context(() => {
-          // Reveal the stage, then play the full entrance
           gsap.to(el, { opacity: 1, duration: 0.5, ease: 'power2.out' })
-          gsap.to(textRef.current, { opacity: 1, y: 0, duration: 1.2, ease: 'power2.out', delay: 0.3 })
+          gsap.to(textRef.current, { opacity: 1, duration: 1.2, ease: 'power2.out', delay: 0.3 })
 
           gsap.to(floatRefs.current, {
             scale: 1, duration: 0.8, stagger: 0.05, ease: 'back.out(1.5)',
@@ -71,6 +70,15 @@ export default function OrbitalRing() {
 
           gsap.to(counterRefs.current, {
             rotation: -720, duration: spinDuration, ease: 'power4.out',
+          })
+
+          // Reveal sector labels after spin completes, one by one
+          gsap.to(labelRefs.current, {
+            opacity: 1, y: 0,
+            duration: 0.55,
+            stagger: 0.1,
+            ease: 'power2.out',
+            delay: spinDuration + 0.1,
           })
 
           floatRefs.current.forEach((orb) => {
@@ -89,7 +97,6 @@ export default function OrbitalRing() {
           })
         }, el)
       },
-      // rootMargin shrinks the detection zone — element must scroll 120px above the bottom edge
       { threshold: 0.15, rootMargin: '0px 0px -120px 0px' }
     )
 
@@ -105,13 +112,11 @@ export default function OrbitalRing() {
     <section className="orbital-section">
       <div ref={compRef} className="orbital-stage">
 
-        {/* Center label */}
         <div ref={textRef} className="orbital-center">
           <div className="orbital-eyebrow">24 Companies · 8 Sectors</div>
           <div className="orbital-headline">One portfolio.<br /><em>Infinite reach.</em></div>
         </div>
 
-        {/* Ring wrapper — keeps orbit centered at all sizes */}
         <div className="orbital-ring-wrap">
           <div ref={ringRef} className="orbital-ring">
             {ORB_DATA.map((data, i) => (
@@ -131,6 +136,13 @@ export default function OrbitalRing() {
                   >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={data.img} alt="" className="orbital-orb-img" />
+                  </div>
+
+                  <div
+                    ref={(el) => { labelRefs.current[i] = el }}
+                    className="orbital-label"
+                  >
+                    {data.sector}
                   </div>
                 </div>
               </div>

@@ -398,7 +398,7 @@ nav a:hover, nav a.active { color: white }
 .orbital-stage {
   position: relative;
   width: 100%;
-  height: 760px;
+  height: 880px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -407,34 +407,41 @@ nav a:hover, nav a.active { color: white }
   position: absolute;
   z-index: 10;
   text-align: center;
-  max-width: 340px;
+  width: 560px;
+  max-width: 90vw;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) translateY(12px);
   pointer-events: none;
   opacity: 0;
-  transform: translateY(12px);
 }
 .orbital-eyebrow {
   font-family: var(--font-mono);
   font-size: 10px;
   letter-spacing: .24em;
   text-transform: uppercase;
-  color: var(--sky);
-  margin-bottom: 16px;
+  color: #1086C7;
+  margin-bottom: 20px;
 }
 .orbital-headline {
   font-family: var(--font-display);
-  font-size: clamp(32px, 4vw, 52px);
-  font-weight: 300;
-  line-height: 1.1;
-  color: var(--ink);
+  font-size: clamp(52px, 6vw, 80px);
+  font-weight: 400;
+  line-height: 1.05;
+  color: #0963A8;
 }
-.orbital-headline em { font-style: italic; color: var(--mid) }
+.orbital-headline em {
+  font-style: italic;
+  color: #1086C7;
+  display: block;
+}
 .orbital-ring-wrap {
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: 700px;
-  height: 700px;
+  width: 820px;
+  height: 820px;
 }
 .orbital-ring {
   position: absolute;
@@ -474,6 +481,19 @@ nav a:hover, nav a.active { color: white }
 .orbital-orb:hover .orbital-orb-img {
   filter: grayscale(0) contrast(1);
   transform: scale(1.08);
+}
+.orbital-label {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 400;
+  font-style: italic;
+  color: #0963A8;
+  pointer-events: none;
 }
 
 /* ── SECTOR CAROUSEL ── */
@@ -619,118 +639,152 @@ nav a:hover, nav a.active { color: white }
   background: var(--navy);
   width: 56px;
 }
-.sc-detail {
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  pointer-events: none;
-  background: transparent;
+/* ── SECTOR FLIP HERO (sh-*) ── */
+.sh-hero {
+  position: relative;
+  height: 65vh;
+  overflow: hidden;
+  background: #F0FAFF; /* matches home page --cloud, transitions dark as image expands */
   transition: background 0.9s cubic-bezier(0.77,0,0.175,1);
 }
-.sc-detail.active {
-  pointer-events: auto;
-  background: var(--cloud);
+.sh-hero.active {
+  background: #0a0a0a;
 }
-.sc-detail-img {
+/* FLIP image: starts at card rect (inline style), animates via !important when .active */
+.sh-img {
   position: fixed;
   object-fit: cover;
-  object-position: center center;
-  z-index: 101;
+  object-position: center;
+  z-index: 10;
   transition: top 0.9s cubic-bezier(0.77,0,0.175,1),
               left 0.9s cubic-bezier(0.77,0,0.175,1),
               width 0.9s cubic-bezier(0.77,0,0.175,1),
               height 0.9s cubic-bezier(0.77,0,0.175,1),
               opacity 0.45s ease;
 }
-.sc-detail.active .sc-detail-img {
-  top: 38vh !important;
+.sh-hero.active .sh-img {
+  top: 0 !important;
   left: 0 !important;
   width: 100vw !important;
-  height: 62vh !important;
+  height: 65vh !important;
 }
-.sc-detail-video {
+/* After 0.95s the image is contained inside the hero div (no position: fixed) */
+.sh-hero.landed .sh-img {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  transition: opacity 0.45s ease !important;
+}
+.sh-video {
   position: fixed;
-  top: 38vh;
+  top: 0;
   left: 0;
   width: 100vw;
-  height: 62vh;
+  height: 65vh;
   object-fit: cover;
-  object-position: center center;
-  z-index: 102;
+  object-position: center;
+  z-index: 11;
   transition: opacity 0.45s ease;
   pointer-events: none;
 }
-.sc-detail-content {
+.sh-hero.landed .sh-video {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  transition: none;
+}
+/* Text overlay */
+.sh-content {
   position: absolute;
   top: 10vh;
   left: 60px;
-  z-index: 102;
-}
-.sc-detail-icon {
-  font-size: 38px;
-  margin-bottom: 14px;
+  z-index: 12;
   opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 0.5s ease 0.15s, transform 0.5s cubic-bezier(0.22,1,0.36,1) 0.15s;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease 0.2s, transform 0.6s cubic-bezier(0.22,1,0.36,1) 0.2s;
+  pointer-events: none;
 }
-.sc-detail.active .sc-detail-icon { opacity: 1; transform: translateY(0) }
-.sc-detail-title {
+.sh-content.active { opacity: 1; transform: translateY(0) }
+.sh-content-icon { color: #fff; margin-bottom: 14px }
+.sh-content-title {
   font-family: var(--font-display);
-  font-size: clamp(2.4rem, 6vw, 5rem);
+  font-size: clamp(2.2rem, 5.5vw, 4.8rem);
   font-weight: 400;
   line-height: 1;
-  color: var(--ink);
-  margin-bottom: 18px;
-  opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 0.9s cubic-bezier(0.77,0,0.175,1) 0.08s,
-              transform 0.9s cubic-bezier(0.77,0,0.175,1) 0.08s;
+  color: #fff;
+  margin-bottom: 14px;
 }
-.sc-detail.active .sc-detail-title { opacity: 1; transform: translateY(0) }
-.sc-detail-desc {
+.sh-content-desc {
   font-size: 15px;
-  color: var(--slate);
-  max-width: 500px;
+  color: rgba(255,255,255,0.78);
+  max-width: 480px;
   line-height: 1.75;
-  margin-bottom: 18px;
-  opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.5s ease 0.22s, transform 0.5s cubic-bezier(0.22,1,0.36,1) 0.22s;
+  margin-bottom: 12px;
 }
-.sc-detail.active .sc-detail-desc { opacity: 1; transform: translateY(0) }
-.sc-detail-count {
+.sh-content-count {
   font-family: var(--font-mono);
   font-size: 10px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--sky);
-  opacity: 0;
-  transition: opacity 0.4s ease 0.32s;
+  color: rgba(255,255,255,0.5);
 }
-.sc-detail.active .sc-detail-count { opacity: 1 }
+/* Back button — shared, reused from carousel classes */
 .sc-back {
   position: fixed;
   top: 28px;
   left: 60px;
-  z-index: 103;
+  z-index: 20;
   background: none;
   border: none;
   font-family: var(--font-body);
   font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.06em;
-  color: var(--ink);
+  color: #fff;
   cursor: pointer;
   opacity: 0;
   transition: opacity 0.4s ease 0.5s;
 }
-.sc-detail.active .sc-back { opacity: 1 }
+.sh-back { opacity: 0 }
+.sh-hero.active .sh-back { opacity: 1 }
+/* Static fallback hero (direct URL navigation) */
+.sh-static {
+  padding: 170px 60px 80px;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+.sh-static-title {
+  font-family: var(--font-display);
+  font-size: clamp(42px, 6vw, 78px);
+  font-weight: 300;
+  line-height: 1.04;
+  color: var(--navy);
+  max-width: 760px;
+  margin-bottom: 18px;
+}
+.sh-static-desc {
+  font-size: 16px;
+  color: var(--slate);
+  max-width: 720px;
+  line-height: 1.9;
+  margin-bottom: 14px;
+}
+.sh-static-count {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--sky);
+}
 @media (max-width: 768px) {
   .sc-header { padding: 0 24px 36px }
   .sc-carousel { padding: 0 24px }
   .sc-item { width: 82vw; height: 65vh }
   .sc-back { left: 24px }
-  .sc-detail-content { left: 24px; top: 7vh }
+  .sh-content { left: 24px; top: 8vh }
+  .sh-static { padding: 120px 24px 60px }
 }
 
 /* ── SECTIONS ── */
@@ -989,7 +1043,16 @@ nav a:hover, nav a.active { color: white }
 .detail-stat strong { display: block; font-family: var(--font-display); font-size: 42px; font-weight: 400; line-height: 1; margin-top: 8px }
 
 /* ── COMPANY CARDS ── */
-.company-list { position: relative; z-index: 1; display: grid; gap: 14px }
+.company-list { position: relative; z-index: 1 }
+.company-stack { min-height: calc(var(--company-count) * 68vh) }
+.company-stack-stage { position: relative }
+.company-stack .company-stack-stage {
+  position: sticky;
+  top: 116px;
+  height: 420px;
+  perspective: 1200px;
+}
+.company-single .company-stack-stage { display: grid; gap: 14px }
 .company-card {
   border: 1px solid var(--mist);
   border-radius: var(--r-lg);
@@ -1001,11 +1064,48 @@ nav a:hover, nav a.active { color: white }
 }
 .company-card:hover { box-shadow: var(--shadow-md); border-color: rgba(47,184,238,.26); transform: translateX(4px) }
 .company-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: linear-gradient(to bottom,var(--navy),var(--bright)) }
+.company-stack .company-card {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 390px;
+  padding: 30px 34px 32px;
+  border-radius: 28px;
+  background: linear-gradient(145deg,rgba(255,255,255,.96),rgba(240,250,255,.9));
+  box-shadow: 0 30px 70px rgba(10,60,100,.18);
+  transform-origin: center 82%;
+  will-change: transform,opacity;
+  transition: transform .16s linear,opacity .16s linear,box-shadow var(--dur-fast),border-color var(--dur-fast);
+}
+.company-stack .company-card:hover { box-shadow: 0 34px 86px rgba(10,60,100,.22); border-color: rgba(47,184,238,.34) }
+.company-stack .company-card::before { width: 4px }
+.company-card-kicker {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--sky);
+  margin-bottom: 10px;
+}
+.company-card-title {
+  max-width: 520px;
+  font-family: var(--font-display);
+  font-size: clamp(28px,3.6vw,46px);
+  font-weight: 400;
+  line-height: 1.02;
+  color: var(--navy);
+  margin-bottom: 34px;
+}
+.company-card-title em { font-style: italic; color: var(--mid) }
 .company-name { font-family: var(--font-display); font-size: 19px; font-weight: 500; color: var(--navy); margin-bottom: 8px }
+.company-stack .company-name { font-size: clamp(25px,3vw,34px); line-height: 1.06; margin-top: auto }
 .company-meta { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 10px }
 .company-tag { font-family: var(--font-mono); font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--sky); background: rgba(47,184,238,.10); padding: 3px 10px; border-radius: var(--r-full) }
+.company-stack .company-tag { padding: 7px 11px; background: rgba(47,184,238,.11); border: 1px solid rgba(47,184,238,.16) }
 .company-tag.type { color: var(--navy); background: rgba(10,99,168,.10) }
 .company-desc { font-size: 13px; color: var(--slate); line-height: 1.65; margin-bottom: 10px }
+.company-stack .company-desc { max-width: 760px; font-size: 16px; line-height: 1.65; margin-bottom: 18px }
 .company-link { font-size: 12px; color: var(--sky); font-family: var(--font-mono); transition: color var(--dur-fast); display: inline-flex; align-items: center; gap: 6px }
 .company-link:hover { color: var(--navy) }
 
@@ -1147,6 +1247,11 @@ footer { background: var(--deep); border-top: 1px solid rgba(255,255,255,.08); p
   .structure-shell, .detail-panel { padding: 24px }
   .structure-head, .detail-head { grid-template-columns: 1fr }
   .sector-page-intro { grid-template-columns: 1fr }
+  .company-stack { min-height: calc(var(--company-count) * 78vh) }
+  .company-stack .company-stack-stage { top: 92px; height: 470px }
+  .company-stack .company-card { min-height: 430px; padding: 24px }
+  .company-card-title { font-size: 30px; margin-bottom: 28px }
+  .company-stack .company-desc { font-size: 14px }
   body { cursor: auto }
   #cursor, #cursor-trail { display: none }
 }

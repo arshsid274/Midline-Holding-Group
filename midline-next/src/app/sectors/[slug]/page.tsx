@@ -1,7 +1,8 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { MIDLINE_SECTORS } from '@/lib/data'
-import CompanyCard from '@/components/CompanyCard'
+import SectorFlipHero from '@/components/SectorFlipHero'
+import CompanyElicaStack from '@/components/CompanyElicaStack'
 
 interface Props {
   params: Promise<{ slug: string }>
@@ -31,14 +32,12 @@ export default async function SectorPage({ params }: Props) {
 
   return (
     <>
-      <section className="subhero" aria-label={sector.label}>
-        <div className="section-label section-label-static">{sector.label}</div>
-        <h1 className="subhero-title">
-          {sector.icon}{' '}
-          <span dangerouslySetInnerHTML={{ __html: sector.title }} />
-        </h1>
-        <p className="subhero-copy">{sector.blurb}</p>
-      </section>
+      <SectorFlipHero
+        plainTitle={plainTitle}
+        blurb={sector.blurb}
+        companiesCount={sector.companies.length}
+        icon={sector.icon}
+      />
 
       <section className="sector-page-shell">
         <div className="sector-page-intro">
@@ -51,25 +50,13 @@ export default async function SectorPage({ params }: Props) {
             <strong>{sector.companies.length}</strong>
           </div>
         </div>
-
-        <div className="detail-sections" style={{ padding: '40px 0 0', maxWidth: 'none' }}>
-          <article className="detail-panel revealed">
-            <div className="detail-head">
-              <div>
-                <div className="detail-eyebrow">Our {plainTitle} Companies</div>
-                <h3 className="detail-title">
-                  {plainTitle} portfolio in <em>one page</em>
-                </h3>
-              </div>
-            </div>
-            <div className="company-list">
-              {sector.companies.map((company) => (
-                <CompanyCard key={company.name} company={company} />
-              ))}
-            </div>
-          </article>
-        </div>
       </section>
+
+      <CompanyElicaStack
+        companies={sector.companies}
+        sectorTitle={plainTitle}
+        totalCompanies={sector.companies.length}
+      />
     </>
   )
 }

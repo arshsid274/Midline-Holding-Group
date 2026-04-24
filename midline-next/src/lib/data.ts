@@ -4,6 +4,9 @@ export interface Company {
   type: string
   desc: string
   link: string | null
+  photo?: string
+  video?: string
+  photos?: string[]  // secondary + tertiary media for card collage
 }
 
 export interface Sector {
