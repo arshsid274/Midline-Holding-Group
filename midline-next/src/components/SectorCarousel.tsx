@@ -22,6 +22,7 @@ type Sector = {
   count: string
   href: string
   img: string
+  video?: string
 }
 
 const SECTORS: Sector[] = [
@@ -30,6 +31,7 @@ const SECTORS: Sector[] = [
     desc: 'Private jet charter, aircraft management, MRO, and cargo services from Dubai.',
     count: '1 COMPANY', href: '/companies',
     img: '/assets/Airlines_Thumbnail.png',
+    video: '/assets/Airlines.mp4',
   },
   {
     id: 2, Icon: HardHat, name: 'Construction & Contracting',
@@ -79,32 +81,74 @@ type DetailState = Sector & { rect: DOMRect }
 
 export default function SectorCarousel() {
   const carouselRef = useRef<HTMLDivElement>(null)
-  const [activeIndex, setActiveIndex] = useState(0)
-  const [detailData, setDetailData] = useState<DetailState | null>(null)
+  const videoRef    = useRef<HTMLVideoElement>(null)
+  const sectionRef  = useRef<HTMLElement>(null)
+  const triggered   = useRef(false)
+
+  const [activeIndex,    setActiveIndex]    = useState(0)
+  const [detailData,     setDetailData]     = useState<DetailState | null>(null)
   const [isDetailActive, setIsDetailActive] = useState(false)
+  const [videoVisible,   setVideoVisible]   = useState(false)
 
-  const isDown = useRef(false)
-  const startX = useRef(0)
+  const isDown        = useRef(false)
+  const startX        = useRef(0)
   const scrollLeftRef = useRef(0)
-  const hasDragged = useRef(false)
+  const hasDragged    = useRef(false)
 
+  // Reveal glass cards when section enters viewport
+  useEffect(() => {
+    const el = sectionRef.current
+    if (!el) return
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting || triggered.current) return
+        triggered.current = true
+        el.classList.add('sc-in-view')
+        observer.disconnect()
+      },
+      { threshold: 0.12, rootMargin: '0px 0px -60px 0px' }
+    )
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
+  // Wheel → horizontal scroll
   useEffect(() => {
     const el = carouselRef.current
     if (!el) return
-    const onWheel = (e: WheelEvent) => {
-      e.preventDefault()
-      el.scrollLeft += e.deltaY
-    }
+    const onWheel = (e: WheelEvent) => { e.preventDefault(); el.scrollLeft += e.deltaY }
     el.addEventListener('wheel', onWheel, { passive: false })
     return () => el.removeEventListener('wheel', onWheel)
   }, [])
+
+  // Photo → video crossfade: fires when FLIP animation lands
+  useEffect(() => {
+    if (!isDetailActive || !detailData?.video) return
+    const video = videoRef.current
+    if (!video) return
+
+    video.currentTime = 0
+    video.play().catch(() => {})
+
+    const show = () => setVideoVisible(true)
+
+    // Start crossfade just as the 0.9s FLIP animation finishes
+    const timer = setTimeout(() => {
+      video.readyState >= 3 ? show() : video.addEventListener('canplay', show, { once: true })
+    }, 820)
+
+    return () => {
+      clearTimeout(timer)
+      video.removeEventListener('canplay', show)
+      video.pause()
+    }
+  }, [isDetailActive, detailData])
 
   const handleScroll = () => {
     const el = carouselRef.current
     if (!el) return
     const ratio = el.scrollLeft / (el.scrollWidth - el.clientWidth)
-    const idx = Math.min(SECTORS.length - 1, Math.max(0, Math.round((ratio || 0) * (SECTORS.length - 1))))
-    setActiveIndex(idx)
+    setActiveIndex(Math.min(SECTORS.length - 1, Math.max(0, Math.round((ratio || 0) * (SECTORS.length - 1)))))
   }
 
   const onMouseDown = (e: React.MouseEvent) => {
@@ -114,12 +158,11 @@ export default function SectorCarousel() {
     scrollLeftRef.current = carouselRef.current?.scrollLeft ?? 0
   }
   const onMouseLeave = () => { isDown.current = false }
-  const onMouseUp = () => { isDown.current = false }
-  const onMouseMove = (e: React.MouseEvent) => {
+  const onMouseUp    = () => { isDown.current = false }
+  const onMouseMove  = (e: React.MouseEvent) => {
     if (!isDown.current || !carouselRef.current) return
     e.preventDefault()
-    const x = e.pageX - carouselRef.current.offsetLeft
-    const walk = (x - startX.current) * 2
+    const walk = (e.pageX - carouselRef.current.offsetLeft - startX.current) * 2
     if (Math.abs(walk) > 5) hasDragged.current = true
     carouselRef.current.scrollLeft = scrollLeftRef.current - walk
   }
@@ -128,24 +171,24 @@ export default function SectorCarousel() {
     if (hasDragged.current) return
     const imgEl = e.currentTarget.querySelector('img')
     if (!imgEl) return
-    const rect = imgEl.getBoundingClientRect()
-    setDetailData({ ...sector, rect })
+    setVideoVisible(false)
+    setDetailData({ ...sector, rect: imgEl.getBoundingClientRect() })
     requestAnimationFrame(() => requestAnimationFrame(() => setIsDetailActive(true)))
   }
 
   const closeDetail = () => {
     setIsDetailActive(false)
+    setVideoVisible(false)
+    videoRef.current?.pause()
     setTimeout(() => setDetailData(null), 900)
   }
 
   return (
-    <section className="sc-section">
+    <section ref={sectionRef} className="sc-section">
 
       <div className="sc-header">
         <div className="section-label revealed">Our Sectors</div>
-        <h2 className="section-title revealed">
-          Eight industries. <em>One vision.</em>
-        </h2>
+        <h2 className="section-title revealed">Eight industries. <em>One vision.</em></h2>
         <p className="section-body revealed">
           Midline&apos;s portfolio spans essential and high-growth industries — from energy and aviation to food,
           pharma, and premium retail.
@@ -170,18 +213,13 @@ export default function SectorCarousel() {
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src={s.img} alt={s.name} draggable={false} className="sc-item-img" />
-
             <div className="sc-glass">
               <div className="sc-glass-icon"><s.Icon size={22} strokeWidth={1.5} /></div>
               <div className="sc-glass-name">{s.name}</div>
               <div className="sc-glass-desc">{s.desc}</div>
               <div className="sc-glass-footer">
                 <span className="sc-glass-count">{s.count}</span>
-                <Link
-                  href={s.href}
-                  className="sc-glass-cta"
-                  onClick={(e) => e.stopPropagation()}
-                >
+                <Link href={s.href} className="sc-glass-cta" onClick={(e) => e.stopPropagation()}>
                   View Sector →
                 </Link>
               </div>
@@ -197,10 +235,7 @@ export default function SectorCarousel() {
       </div>
 
       {detailData && (
-        <div
-          className={`sc-detail${isDetailActive ? ' active' : ''}`}
-          onClick={closeDetail}
-        >
+        <div className={`sc-detail${isDetailActive ? ' active' : ''}`} onClick={closeDetail}>
           <button className="sc-back" onClick={closeDetail}>← Back</button>
 
           <div className="sc-detail-content" onClick={(e) => e.stopPropagation()}>
@@ -210,6 +245,7 @@ export default function SectorCarousel() {
             <span className="sc-detail-count">{detailData.count}</span>
           </div>
 
+          {/* FLIP image — fades out once video is ready */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             className="sc-detail-img"
@@ -220,8 +256,23 @@ export default function SectorCarousel() {
               left: detailData.rect.left,
               width: detailData.rect.width,
               height: detailData.rect.height,
+              opacity: videoVisible ? 0 : 1,
             }}
           />
+
+          {/* Video — already at final expanded position, fades in over the image */}
+          {detailData.video && (
+            <video
+              ref={videoRef}
+              className="sc-detail-video"
+              src={detailData.video}
+              preload="auto"
+              muted
+              playsInline
+              loop
+              style={{ opacity: videoVisible ? 1 : 0 }}
+            />
+          )}
         </div>
       )}
     </section>

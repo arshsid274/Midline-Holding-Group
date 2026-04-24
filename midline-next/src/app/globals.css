@@ -523,43 +523,68 @@ nav a:hover, nav a.active { color: white }
   bottom: 14px;
   left: 10px;
   right: 10px;
-  padding: 18px 18px 16px;
+  height: 178px;
+  display: flex;
+  flex-direction: column;
+  padding: 16px 16px 14px;
   border-radius: 14px;
   backdrop-filter: blur(28px) saturate(180%);
   -webkit-backdrop-filter: blur(28px) saturate(180%);
-  background: rgba(255, 255, 255, 0.13);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.38), 0 8px 32px rgba(0,0,0,0.22);
-  color: #fff;
-  transition: transform 0.35s var(--ease-out);
+  background: rgba(255, 255, 255, 0.38);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.7), 0 8px 32px rgba(9,99,168,0.18);
+  /* hidden until section enters viewport */
+  opacity: 0;
+  transform: translateY(36px);
+  transition: transform 0.7s var(--ease-out), opacity 0.7s var(--ease-out);
 }
+/* each card waits for the previous to finish (delay = duration × index) */
+.sc-in-view .sc-item:nth-child(1) .sc-glass { opacity: 1; transform: translateY(0); transition-delay: 0ms }
+.sc-in-view .sc-item:nth-child(2) .sc-glass { opacity: 1; transform: translateY(0); transition-delay: 700ms }
+.sc-in-view .sc-item:nth-child(3) .sc-glass { opacity: 1; transform: translateY(0); transition-delay: 1400ms }
+.sc-in-view .sc-item:nth-child(4) .sc-glass { opacity: 1; transform: translateY(0); transition-delay: 2100ms }
+.sc-in-view .sc-item:nth-child(5) .sc-glass { opacity: 1; transform: translateY(0); transition-delay: 2800ms }
+.sc-in-view .sc-item:nth-child(6) .sc-glass { opacity: 1; transform: translateY(0); transition-delay: 3500ms }
+.sc-in-view .sc-item:nth-child(7) .sc-glass { opacity: 1; transform: translateY(0); transition-delay: 4200ms }
+.sc-in-view .sc-item:nth-child(8) .sc-glass { opacity: 1; transform: translateY(0); transition-delay: 4900ms }
 .sc-item:hover .sc-glass { transform: translateY(-5px) }
-.sc-glass-icon { font-size: 22px; margin-bottom: 8px }
+.sc-glass-icon {
+  color: #0963A8;
+  margin-bottom: 7px;
+  flex-shrink: 0;
+}
 .sc-glass-name {
   font-family: var(--font-display);
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 500;
   line-height: 1.2;
-  margin-bottom: 6px;
-  text-shadow: 0 1px 4px rgba(0,0,0,0.35);
+  margin-bottom: 5px;
+  color: #0963A8;
+  flex-shrink: 0;
 }
 .sc-glass-desc {
-  font-size: 12px;
+  font-size: 11.5px;
   line-height: 1.5;
-  color: rgba(255,255,255,0.8);
-  margin-bottom: 13px;
+  color: #1086C7;
+  flex: 1;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  margin-bottom: 10px;
 }
 .sc-glass-footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-shrink: 0;
 }
 .sc-glass-count {
   font-family: var(--font-mono);
   font-size: 10px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.58);
+  color: rgba(9, 99, 168, 0.55);
 }
 .sc-glass-cta {
   font-size: 11px;
@@ -569,12 +594,13 @@ nav a:hover, nav a.active { color: white }
   letter-spacing: 0.04em;
   padding: 4px 11px;
   border-radius: 999px;
-  border: 1px solid rgba(255,255,255,0.38);
+  background: #0963A8;
+  border: 1px solid #0963A8;
   transition: background 0.2s ease, border-color 0.2s ease;
 }
 .sc-glass-cta:hover {
-  background: rgba(255,255,255,0.2);
-  border-color: rgba(255,255,255,0.65);
+  background: #1086C7;
+  border-color: #1086C7;
 }
 .sc-pips {
   display: flex;
@@ -613,13 +639,26 @@ nav a:hover, nav a.active { color: white }
   transition: top 0.9s cubic-bezier(0.77,0,0.175,1),
               left 0.9s cubic-bezier(0.77,0,0.175,1),
               width 0.9s cubic-bezier(0.77,0,0.175,1),
-              height 0.9s cubic-bezier(0.77,0,0.175,1);
+              height 0.9s cubic-bezier(0.77,0,0.175,1),
+              opacity 0.45s ease;
 }
 .sc-detail.active .sc-detail-img {
   top: 38vh !important;
   left: 0 !important;
   width: 100vw !important;
   height: 62vh !important;
+}
+.sc-detail-video {
+  position: fixed;
+  top: 38vh;
+  left: 0;
+  width: 100vw;
+  height: 62vh;
+  object-fit: cover;
+  object-position: center center;
+  z-index: 102;
+  transition: opacity 0.45s ease;
+  pointer-events: none;
 }
 .sc-detail-content {
   position: absolute;
