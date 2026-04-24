@@ -29,11 +29,12 @@ export default function OrbitalRing() {
     const el = compRef.current
     if (!el) return
 
-    // Set initial hidden states before observer fires
+    // Hide the entire stage — nothing visible until scroll trigger fires
+    gsap.set(el, { opacity: 0 })
     gsap.set(textRef.current, { opacity: 0, y: 24 })
     gsap.set(floatRefs.current, { scale: 0 })
 
-    // Position orbs via trigonometry immediately (layout only, not visible yet)
+    // Position orbs via trigonometry (layout only, hidden at scale 0)
     ORB_DATA.forEach((data, i) => {
       const rad = data.angle * (Math.PI / 180)
       gsap.set(positionerRefs.current[i], {
@@ -45,15 +46,19 @@ export default function OrbitalRing() {
     })
 
     let ctx: ReturnType<typeof gsap.context> | null = null
+    let triggered = false
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (!entry.isIntersecting) return
+        if (!entry.isIntersecting || triggered) return
+        triggered = true
         observer.disconnect()
 
         const spinDuration = 5
 
         ctx = gsap.context(() => {
+          // Reveal the stage, then play the full entrance
+          gsap.to(el, { opacity: 1, duration: 0.5, ease: 'power2.out' })
           gsap.to(textRef.current, { opacity: 1, y: 0, duration: 1.2, ease: 'power2.out', delay: 0.3 })
 
           gsap.to(floatRefs.current, {
@@ -84,7 +89,8 @@ export default function OrbitalRing() {
           })
         }, el)
       },
-      { threshold: 0.25 }
+      // rootMargin shrinks the detection zone — element must scroll 120px above the bottom edge
+      { threshold: 0.15, rootMargin: '0px 0px -120px 0px' }
     )
 
     observer.observe(el)
