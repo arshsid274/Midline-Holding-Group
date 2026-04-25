@@ -31,6 +31,7 @@ export default async function CompanyInfoRoute({ params }: Props) {
     <CompanyInfoPages
       companyName={found.company.name}
       sectorTitle={found.sectorTitle}
+      sectorSlug={found.sectorSlug}
       content={getCompanyContent(slug)}
     />
   )

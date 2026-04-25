@@ -9,9 +9,17 @@ type Props = {
   blurb: string
   companiesCount: number
   icon: string
+  /**
+   * Fallback video shown when the user lands on this page WITHOUT the carousel
+   * bridge state — e.g. on direct URL load, page refresh, or navigating BACK
+   * from a company detail page. Without this, `consumeFlipOrigin()` returns
+   * null and the static branch silently renders no video.
+   */
+  fallbackVideo?: string
+  fallbackPoster?: string
 }
 
-export default function SectorFlipHero({ plainTitle, blurb, companiesCount, icon }: Props) {
+export default function SectorFlipHero({ plainTitle, blurb, companiesCount, icon, fallbackVideo, fallbackPoster }: Props) {
   const router   = useRouter()
   const videoRef = useRef<HTMLVideoElement>(null)
 
@@ -77,16 +85,43 @@ export default function SectorFlipHero({ plainTitle, blurb, companiesCount, icon
     }
   }, [active, origin])
 
-  // ── Static fallback for direct URL navigation ──────────────────────────────
+  // ── Static fallback for direct URL navigation / back-navigation ───────────
+  // Renders the same hero composition as the post-FLIP state: full-bleed
+  // photo/video, glass-card content panel bottom-left, sky-blue back pill.
+  // Bypasses the FLIP transition (no carousel rect to interpolate from) but
+  // visually identical so back-navigation doesn't dump users into a stripped page.
   if (!origin) {
     return (
-      <div className="sh-static">
-        <div className="section-label section-label-static">{icon}</div>
-        <h1 className="sh-static-title">{plainTitle}</h1>
-        <p className="sh-static-desc">{blurb}</p>
-        <span className="sh-static-count">
-          {companiesCount} {companiesCount === 1 ? 'COMPANY' : 'COMPANIES'}
-        </span>
+      <div className="sh-hero sh-hero-static active landed">
+        <button className="sc-back sh-back sh-back-static" onClick={() => router.back()}>
+          ← Back
+        </button>
+
+        <div className="sh-content active">
+          <div className="sh-content-icon">{icon}</div>
+          <h1 className="sh-content-title">{plainTitle}</h1>
+          <p className="sh-content-desc">{blurb}</p>
+          <span className="sh-content-count">
+            {companiesCount} {companiesCount === 1 ? 'COMPANY' : 'COMPANIES'}
+          </span>
+        </div>
+
+        {fallbackPoster && (
+          /* eslint-disable-next-line @next/next/no-img-element */
+          <img className="sh-static-media" src={fallbackPoster} alt="" />
+        )}
+        {fallbackVideo && (
+          <video
+            className="sh-static-media sh-static-video"
+            src={fallbackVideo}
+            poster={fallbackPoster}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+          />
+        )}
       </div>
     )
   }

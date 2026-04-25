@@ -69,6 +69,44 @@ body {
   overflow-x: hidden;
   cursor: none;
 }
+/*
+ * CompanyInfoPages.css is a 2.3 MB Ssangyong-port stylesheet that ships rules
+ * like `body { line-height: 1; font-family: 'SUIT'; color: #666; ... }` and a
+ * responsive `html, body { font-size: max(...) }`. Once the user visits any
+ * /companies/[slug] page Next.js keeps that stylesheet in <head> for the rest
+ * of the session, so those rules silently override these defaults on every
+ * subsequent page (shrunken nav, broken type rhythm).
+ *
+ * `<SiteChrome>` toggles `.midline-shell` on the body for every non-bare route
+ * — `body.midline-shell` has one extra class of specificity, which is enough
+ * to win against the leaked plain-`body` rules without needing !important.
+ */
+body.midline-shell {
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--ink);
+}
+body.midline-shell input,
+body.midline-shell button,
+body.midline-shell select,
+body.midline-shell textarea {
+  font-family: var(--font-body), system-ui, sans-serif;
+  font-size: inherit;
+  color: inherit;
+}
+/*
+ * The Ssangyong reset also ships
+ *   article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section { display: block }
+ * which collapses the floating <nav> pill back to block flow — that's why the
+ * links jam into "CompaniesAboutGlobalContact" after a company-page round-trip.
+ * Higher specificity here pins flex layout back on whenever the chrome is mounted.
+ */
+body.midline-shell nav {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+}
 body::before {
   content: '';
   position: fixed;
@@ -709,12 +747,12 @@ nav a:hover, nav a.active { color: white }
 /* Liquid glass info card — anchored bottom-left over the hero image */
 .sh-content {
   position: absolute;
-  bottom: 40px;
-  left: 60px;
+  bottom: 32px;
+  left: 48px;
   z-index: 12;
-  max-width: 460px;
-  padding: 24px 28px;
-  border-radius: 20px;
+  max-width: 360px;
+  padding: 18px 22px;
+  border-radius: 18px;
   background: rgba(255, 255, 255, 0.13);
   border: 1px solid rgba(255, 255, 255, 0.26);
   backdrop-filter: blur(28px) saturate(180%);
@@ -729,20 +767,20 @@ nav a:hover, nav a.active { color: white }
   pointer-events: none;
 }
 .sh-content.active { opacity: 1; transform: translateY(0) }
-.sh-content-icon { color: var(--bright); margin-bottom: 12px }
+.sh-content-icon { color: var(--bright); margin-bottom: 8px; font-size: 18px; line-height: 1; }
 .sh-content-title {
   font-family: var(--font-display);
-  font-size: clamp(1.5rem, 2.6vw, 2.2rem);
+  font-size: clamp(1.3rem, 2.1vw, 1.75rem);
   font-weight: 400;
-  line-height: 1.08;
+  line-height: 1.1;
   color: #fff;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 .sh-content-desc {
-  font-size: 13px;
-  color: rgba(255, 255, 255, 0.70);
-  line-height: 1.7;
-  margin-bottom: 14px;
+  font-size: 12.5px;
+  color: rgba(255, 255, 255, 0.72);
+  line-height: 1.55;
+  margin-bottom: 12px;
 }
 .sh-content-count {
   font-family: var(--font-mono);
@@ -798,11 +836,32 @@ nav a:hover, nav a.active { color: white }
   }
 }
 .sc-back:active { transform: scale(0.97); }
-/* Static fallback hero (direct URL navigation) */
-.sh-static {
-  padding: 170px 60px 80px;
-  max-width: 1300px;
-  margin: 0 auto;
+/*
+ * Static fallback hero — same .sh-hero / .sh-content / .sc-back primitives
+ * as the FLIP path, but the media fills the full viewport directly (no rect
+ * interpolation) and the back button skips the slow `.active` reveal so it's
+ * usable immediately on back-navigation.
+ */
+.sh-hero-static .sh-static-media {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+  display: block;
+}
+.sh-hero-static .sh-static-video { z-index: 2; }
+.sh-hero-static .sh-content {
+  z-index: 12;
+  pointer-events: auto;
+}
+.sh-back-static {
+  opacity: 1 !important;
+  animation-play-state: running !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .sh-hero-static .sh-static-video { display: none; }
 }
 .sh-static-title {
   font-family: var(--font-display);
@@ -832,7 +891,18 @@ nav a:hover, nav a.active { color: white }
   .sc-carousel { padding: 0 24px }
   .sc-item { width: 82vw; height: 65vh }
   .sc-back { left: 16px; padding: 8px 16px; font-size: 13px; }
-  .sh-content { left: 24px; top: 8vh }
+  .sh-content {
+    left: 16px;
+    right: 16px;
+    bottom: 20px;
+    max-width: none;
+    padding: 14px 16px;
+    border-radius: 14px;
+  }
+  .sh-content-icon { margin-bottom: 6px; font-size: 16px; }
+  .sh-content-title { font-size: 1.25rem; margin-bottom: 6px; }
+  .sh-content-desc { font-size: 12px; line-height: 1.5; margin-bottom: 10px; }
+  .sh-content-count { font-size: 8px; }
   .sh-static { padding: 120px 24px 60px }
 }
 

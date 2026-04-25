@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect } from 'react'
 import { usePathname } from 'next/navigation'
 import Nav from '@/components/Nav'
 import Footer from '@/components/Footer'
@@ -14,6 +15,14 @@ const BARE_PATTERNS = [/^\/companies\/[^/]+\/?$/]
 export default function SiteChrome({ children }: { children: React.ReactNode }) {
   const pathname = usePathname() ?? ''
   const bare = BARE_PATTERNS.some((re) => re.test(pathname))
+
+  // Tag the body so globals.css can override the leaking CompanyInfoPages
+  // resets (body font-size, line-height, color) on every non-bare route —
+  // the heavy stylesheet stays loaded by Next.js after the first visit.
+  useEffect(() => {
+    document.body.classList.toggle('midline-shell', !bare)
+    return () => { document.body.classList.remove('midline-shell') }
+  }, [bare])
 
   if (bare) return <>{children}</>
 

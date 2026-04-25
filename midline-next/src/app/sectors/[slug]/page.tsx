@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { MIDLINE_SECTORS } from '@/lib/data'
+import { getSectorMedia } from '@/lib/companyContent'
 import SectorFlipHero from '@/components/SectorFlipHero'
 import CompanyElicaStack from '@/components/CompanyElicaStack'
 
@@ -37,6 +38,8 @@ export default async function SectorPage({ params }: Props) {
         blurb={sector.blurb}
         companiesCount={sector.companies.length}
         icon={sector.icon}
+        fallbackVideo={getSectorMedia(slug).video}
+        fallbackPoster={getSectorMedia(slug).photo}
       />
 
       <section className="sector-page-shell">

@@ -15,6 +15,7 @@
 
 import { useEffect, useRef } from 'react'
 import Script from 'next/script'
+import { useRouter } from 'next/navigation'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { ScrollToPlugin } from 'gsap/ScrollToPlugin'
@@ -28,12 +29,27 @@ const VID = 'https://www.ssyenc.com/resources/en/video'
 interface CompanyInfoPagesProps {
   companyName?: string
   sectorTitle?: string
+  sectorSlug?: string
   content?: CompanyContent
 }
 
-export default function CompanyInfoPages({ companyName, sectorTitle, content }: CompanyInfoPagesProps = {}) {
+export default function CompanyInfoPages({ companyName, sectorTitle, sectorSlug, content }: CompanyInfoPagesProps = {}) {
+  const router = useRouter()
   const containerRef = useRef<HTMLDivElement>(null)
   const swiperInitialized = useRef(false)
+
+  const handleBack = () => {
+    // If the user arrived here via in-app navigation, history.back is the
+    // most natural target. On direct loads or refreshes there's nothing to
+    // go back to, so fall back to the sector page (or home).
+    if (typeof window !== 'undefined' && window.history.length > 1) {
+      router.back()
+    } else if (sectorSlug) {
+      router.push(`/sectors/${sectorSlug}`)
+    } else {
+      router.push('/')
+    }
+  }
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger, ScrollToPlugin, SplitText)
@@ -403,6 +419,10 @@ export default function CompanyInfoPages({ companyName, sectorTitle, content }: 
     <>
       {/* Swiper 4.x for the rotating title images */}
       <Script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/js/swiper.min.js" strategy="afterInteractive" />
+
+      <button type="button" className="cip-back" onClick={handleBack} aria-label={`Back${sectorTitle ? ` to ${sectorTitle}` : ''}`}>
+        <span aria-hidden>←</span> Back
+      </button>
 
       <div ref={containerRef} id="wrap" className="intro company about">
         <div id="container" className="container">

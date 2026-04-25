@@ -618,3 +618,32 @@ export const COMPANY_CONTENT: Record<string, CompanyContent> = {
 export function getCompanyContent(slug: string): CompanyContent | undefined {
   return COMPANY_CONTENT[slug]
 }
+
+/**
+ * Per-sector hero photo + video, served from /public/assets/sectors/.
+ * Sectors without dedicated media fall back to the placeholder image and the
+ * aviation video (the only generic motion clip we have on hand).
+ */
+export interface SectorMedia {
+  photo: string
+  video: string
+}
+
+const PLACEHOLDER_PHOTO = '/assets/sectors/placeholder.jpg'
+const FALLBACK_VIDEO = '/assets/sectors/aviation.mp4'
+
+export const SECTOR_MEDIA: Record<string, SectorMedia> = {
+  aviation:    { photo: '/assets/sectors/aviation.png',    video: '/assets/sectors/aviation.mp4' },
+  food:        { photo: '/assets/sectors/food.png',        video: '/assets/sectors/food.mp4' },
+  perfumes:    { photo: '/assets/sectors/perfumes.png',    video: '/assets/sectors/perfumes.mp4' },
+  furniture:   { photo: '/assets/sectors/furniture.png',   video: '/assets/sectors/furniture.mp4' },
+  spareparts:  { photo: '/assets/sectors/spareparts.png',  video: '/assets/sectors/spareparts.mp4' },
+  construction:{ photo: PLACEHOLDER_PHOTO,                 video: FALLBACK_VIDEO },
+  oilgas:      { photo: PLACEHOLDER_PHOTO,                 video: FALLBACK_VIDEO },
+  pharma:      { photo: PLACEHOLDER_PHOTO,                 video: FALLBACK_VIDEO },
+}
+
+export function getSectorMedia(sectorKey: string | undefined): SectorMedia {
+  if (sectorKey && SECTOR_MEDIA[sectorKey]) return SECTOR_MEDIA[sectorKey]
+  return { photo: PLACEHOLDER_PHOTO, video: FALLBACK_VIDEO }
+}
