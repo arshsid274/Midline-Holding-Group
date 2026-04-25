@@ -58,7 +58,6 @@ export default async function SectorPage({ params }: Props) {
       <CompanyElicaStack
         companies={sector.companies}
         sectorTitle={plainTitle}
-        sectorKey={slug}
         totalCompanies={sector.companies.length}
       />
     </>
