@@ -1,13 +1,7 @@
 import type { Metadata } from 'next'
 import { Cormorant_Garamond, DM_Sans, DM_Mono } from 'next/font/google'
 import './globals.css'
-import Nav from '@/components/Nav'
-import Footer from '@/components/Footer'
-import Aurora from '@/components/Aurora'
-import Cursor from '@/components/Cursor'
-import Particles from '@/components/Particles'
-import ProgressBar from '@/components/ProgressBar'
-import PageTransition from '@/components/PageTransition'
+import SiteChrome from '@/components/SiteChrome'
 
 const cormorant = Cormorant_Garamond({
   subsets: ['latin'],
@@ -49,17 +43,9 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${cormorant.variable} ${dmSans.variable} ${dmMono.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`${cormorant.variable} ${dmSans.variable} ${dmMono.variable}`}>
       <body>
-        <Aurora />
-        <Particles />
-        <Cursor />
-        <ProgressBar />
-        <Nav />
-        <PageTransition>
-          {children}
-          <Footer />
-        </PageTransition>
+        <SiteChrome>{children}</SiteChrome>
       </body>
     </html>
   )

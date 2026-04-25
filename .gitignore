@@ -23,3 +23,21 @@ yarn-debug.log*
 
 # Vercel
 .vercel
+
+# ── Reference / working files NOT consumed by the midline-next build ──
+# Raw asset working folders (copies of what's needed live in midline-next/public/)
+/Assets/
+/Assets&content/
+# Standalone HTML reference build (separate from the Next.js app)
+/Midline-Holding-Html/
+# Reference HTML / markdown the app doesn't import
+/pages.html
+/design.md
+/midline_holding_content.md
+/MidlineHoldingCompany-profiles.md
+# Stale top-level copies (replaced by versions inside midline-next/)
+/CompanyInfoPages.tsx
+/CompanyInfoPages.css
+
+# Skill/tooling caches inside midline-next that aren't part of the app
+midline-next/.claude/

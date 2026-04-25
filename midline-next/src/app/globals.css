@@ -753,24 +753,51 @@ nav a:hover, nav a.active { color: white }
   opacity: 0.85;
 }
 /* Back button — shared, reused from carousel classes */
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 0px rgba(80, 207, 254, 0), 0 0 0px rgba(80, 207, 254, 0); }
+  50%       { box-shadow: 0 0 14px rgba(80, 207, 254, 0.40), 0 0 32px rgba(80, 207, 254, 0.15); }
+}
+
 .sc-back {
   position: fixed;
-  top: 28px;
+  top: 24px;
   left: 60px;
   z-index: 20;
-  background: none;
-  border: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 22px;
+  background: rgba(80, 207, 254, 0.08);
+  border: 1px solid rgba(80, 207, 254, 0.28);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-radius: 999px;
   font-family: var(--font-body);
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 600;
   letter-spacing: 0.06em;
-  color: #fff;
+  color: #50CFFE;
   cursor: pointer;
   opacity: 0;
-  transition: opacity 0.4s ease 0.5s;
+  transition: opacity 0.4s ease 0.5s, background 0.2s ease, border-color 0.2s ease;
+  animation: glowPulse 2.8s ease-in-out infinite;
+  animation-play-state: paused;
 }
-.sh-back { opacity: 0 }
-.sh-hero.active .sh-back { opacity: 1 }
+
+.sh-back { opacity: 0; animation-play-state: paused; }
+.sh-hero.active .sh-back {
+  opacity: 1;
+  animation-play-state: running;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .sc-back:hover {
+    background: rgba(80, 207, 254, 0.14);
+    border-color: rgba(80, 207, 254, 0.50);
+    animation-play-state: paused;
+  }
+}
+.sc-back:active { transform: scale(0.97); }
 /* Static fallback hero (direct URL navigation) */
 .sh-static {
   padding: 170px 60px 80px;
@@ -804,7 +831,7 @@ nav a:hover, nav a.active { color: white }
   .sc-header { padding: 0 24px 36px }
   .sc-carousel { padding: 0 24px }
   .sc-item { width: 82vw; height: 65vh }
-  .sc-back { left: 24px }
+  .sc-back { left: 16px; padding: 8px 16px; font-size: 13px; }
   .sh-content { left: 24px; top: 8vh }
   .sh-static { padding: 120px 24px 60px }
 }

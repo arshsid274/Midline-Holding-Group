@@ -4,6 +4,7 @@ export interface Company {
   type: string
   desc: string
   link: string | null
+  logo?: string
   photo?: string
   video?: string
   photos?: string[]  // secondary + tertiary media for card collage
@@ -30,7 +31,8 @@ export const MIDLINE_SECTORS: Record<string, Sector> = {
         name: 'Midline Aviation Service',
         tags: ['Dubai South, UAE'],
         type: 'Private Aviation',
-        desc: 'Deals in: Aircraft charter, aircraft management, aircraft sales, MRO, and air cargo services.',
+        logo: '/assets/logos/midline-aviation.png',
+        desc: 'Award-winning Dubai-based private aviation company offering jet charter, aircraft management, aircraft sales, MRO, and air cargo. Fleet includes the Embraer Legacy 650, Gulfstream G450, and Gulfstream G200 — serving corporate, VIP, and government clients worldwide.',
         link: 'https://midlineaviation.com',
       },
     ],
@@ -44,9 +46,9 @@ export const MIDLINE_SECTORS: Record<string, Sector> = {
     companies: [
       {
         name: 'Midline Trend Building Contracting LLC',
-        tags: ['UAE'],
+        tags: ['UAE', 'Est. 2024'],
         type: 'General Contracting',
-        desc: 'Deals in: General building contracting — residential, commercial, and infrastructure.',
+        desc: 'Fast-growing UAE construction group delivering residential, commercial, and industrial projects since 2024 — with a structured execution model covering site preparation, structural works, and finishing, backed by civil engineers, project supervisors, and skilled technical teams.',
         link: null,
       },
       {
@@ -60,7 +62,8 @@ export const MIDLINE_SECTORS: Record<string, Sector> = {
         name: 'Handasiah Consultant Arch Civilion LLC',
         tags: ['UAE'],
         type: 'Architecture & Civil Consulting',
-        desc: 'Deals in: Architecture design, civil engineering consultancy, and project planning.',
+        logo: '/assets/logos/handasiah.png',
+        desc: 'Multidisciplinary engineering consultancy providing architectural, structural, MEP, interior, and landscape design services — bridging concept design with on-site execution and serving as the technical design authority within the Midline construction ecosystem.',
         link: null,
       },
       {
@@ -89,15 +92,16 @@ export const MIDLINE_SECTORS: Record<string, Sector> = {
       {
         name: 'Flavour Food Trading LLC',
         tags: ['Dubai, UAE'],
-        type: 'Food Trading & Raw Materials',
-        desc: 'Deals in: Raw materials supply for juice, dairy, pasta, and canned food manufacturers — concentrates, milk powder, semolina, and oils.',
+        type: 'Food Trading & Industrial Solutions',
+        logo: '/assets/logos/flavour-food.png',
+        desc: 'UAE-based international food trading and industrial solutions company — supplying raw materials (juice concentrates, milk powder, agricultural commodities) alongside turnkey production lines for oil, tomato paste, pasta, poultry, and tuna. Partners include Lactalis, FrieslandCampina, Döhler, and Fava S.p.A.',
         link: 'https://www.flavorfooduae.com',
       },
       {
         name: 'Acacus Juice and Milk Factory',
-        tags: ['Libya'],
+        tags: ['Benghazi, Libya', 'Est. 2024'],
         type: 'Juice & Dairy Manufacturing',
-        desc: 'Deals in: Juice and dairy product manufacturing.',
+        desc: 'ISO 22000 & ISO 9001 certified food manufacturer in Benghazi producing 7 juice flavors, full-cream and skimmed dairy, flavored and evaporated milk, edible oils, and canned tuna — using advanced UHT pasteurization and fully automated production lines.',
         link: null,
       },
       {
@@ -109,29 +113,33 @@ export const MIDLINE_SECTORS: Record<string, Sector> = {
       },
       {
         name: 'Libyan Al-Aws to Import Foodstuffs',
-        tags: ['Libya'],
+        tags: ['Benghazi, Libya'],
         type: 'Food Import & Distribution',
-        desc: 'Deals in: Importing and distributing foodstuffs.',
+        logo: '/assets/logos/libyan-alaws.png',
+        desc: 'Benghazi-based food import company with 6M LYD capital, serving restaurants, hotels, hospitals, supermarkets, and institutions across Libya — backed by temperature-controlled warehousing and a modern distribution fleet covering major Libyan cities.',
         link: null,
       },
       {
         name: 'Elbasateen Food Industries',
-        tags: ['Libya'],
-        type: 'Food Manufacturing',
-        desc: 'Deals in: Consumer food manufacturing.',
+        tags: ['Benghazi, Libya', 'Est. 2006'],
+        type: 'Canned Food Manufacturing',
+        logo: '/assets/logos/elbasateen.png',
+        desc: 'Established Libyan canned food manufacturer since 2006 producing 30,000 cans/day under the "Saed" brand — fava beans, chickpeas, harissa, and tomato paste using integrated Osmanli Makina production lines with nationwide retail distribution.',
         link: null,
       },
       {
         name: 'Saif Pasta Factory',
-        tags: ['Libya'],
+        tags: ['Benghazi, Libya', 'Est. 2006'],
         type: 'Pasta Manufacturing',
-        desc: 'Deals in: Semolina-based pasta production.',
+        logo: '/assets/logos/saif-pasta.png',
+        desc: 'Benghazi pasta factory since 2006 with 17.5 tons/day capacity, manufacturing penne, macaroni, and specialty short pasta shapes using automated production lines with precision drying and high-performance packaging systems.',
         link: null,
       },
       {
         name: 'Al-Dabousiya Mineral Water Bottling Company',
         tags: ['Libya'],
         type: 'Water Bottling',
+        logo: '/assets/logos/aldabousiya.png',
         desc: 'Deals in: Mineral water bottling and distribution.',
         link: null,
       },
@@ -139,8 +147,9 @@ export const MIDLINE_SECTORS: Record<string, Sector> = {
         name: 'Maraina Al-Khadra for Feed Industry Co.',
         tags: ['Libya'],
         type: 'Animal Feed Manufacturing',
-        desc: 'Deals in: Animal feed manufacturing for the agricultural sector.',
-        link: null,
+        logo: '/assets/logos/maraina.png',
+        desc: 'Libya-based animal feed company (brand: Green Pastures) delivering scientifically formulated balanced feed, custom nutritional programs, and expert consultancy services for livestock and poultry producers — with a focus on farm efficiency and food security.',
+        link: 'https://green.maraina.com.ly',
       },
     ],
   },
@@ -153,9 +162,10 @@ export const MIDLINE_SECTORS: Record<string, Sector> = {
     companies: [
       {
         name: 'Arco Oil and Gas',
-        tags: ['UAE'],
-        type: 'Oil & Gas Services',
-        desc: 'Deals in: Petroleum services — exploration, production support, and logistics.',
+        tags: ['UAE', 'Global'],
+        type: 'Oilfield Services & Industrial Supply',
+        logo: '/assets/logos/arco.jpg',
+        desc: 'Global oilfield and industrial solutions provider supplying drilling rigs, wellheads, OCTG, compressors, valves, pumps, and downhole equipment — with an international sourcing network spanning China, UK, Turkey, Italy, Spain, France, and Libya.',
         link: 'https://www.arcooilgas.com',
       },
       {
@@ -167,9 +177,10 @@ export const MIDLINE_SECTORS: Record<string, Sector> = {
       },
       {
         name: 'ABCO',
-        tags: ['Oil & Gas'],
+        tags: ['Libya', 'UAE'],
         type: 'Oil & Gas Services',
-        desc: 'Deals in: Integrated oil and gas services and supply chain.',
+        logo: '/assets/logos/abco.png',
+        desc: 'Libya-focused oil and gas company specializing in drilling operations, well maintenance, procurement, and engineering consultancy — operating from Burlington Tower, Dubai, with industry partners including Sinopec, Kerui Group, and Coenesp.',
         link: null,
       },
     ],
@@ -185,14 +196,16 @@ export const MIDLINE_SECTORS: Record<string, Sector> = {
         name: 'Ard Al Teeb W Al Jamal Perfumes Trading LLC',
         tags: ['Dubai, UAE', 'Est. 2007'],
         type: 'Luxury Perfumes',
-        desc: "Deals in: Luxury Arabic and French fragrances — Men's, Women's, and Unisex — across 7+ countries.",
+        logo: '/assets/logos/ard-alteeb-uae.png',
+        desc: 'Luxury Arabic-French fragrance house established in 2007, blending oriental heritage with French craftsmanship. Present in 7+ countries with flagship outlets in Dubai and Umm Al Quwain — offering exclusive oud-based and contemporary collections for retail and wholesale markets.',
         link: 'https://ardalteeb.com',
       },
       {
         name: 'Ard Alteeba & Aljamal',
-        tags: ['Perfumes & Cosmetics'],
-        type: 'Perfume & Cosmetics',
-        desc: 'Deals in: Perfume and cosmetics rooted in Arabic heritage.',
+        tags: ['Benghazi, Libya', 'Est. 2017'],
+        type: 'Perfumes & Cosmetics',
+        logo: '/assets/logos/ard-alteeb-libya.png',
+        desc: "Libya's leading beauty and fragrance retailer since 2017, with 150+ retail points nationwide and 100+ products — carrying brands including Ard Al Teeb, Louis Marly, and Aurora, alongside cosmetics lines Alix Avien Paris, Callista, and MUA across all major Libyan cities.",
         link: null,
       },
     ],
@@ -206,9 +219,10 @@ export const MIDLINE_SECTORS: Record<string, Sector> = {
     companies: [
       {
         name: 'Al Sanidan Furniture Showroom',
-        tags: ['Dubai & Sharjah, UAE'],
+        tags: ['Sharjah, UAE'],
         type: 'Premium Furniture Retail',
-        desc: 'Deals in: Premium furniture retail — bedroom, living room, dining, TV units, and coffee tables. 205+ pieces across 16 collections sourced from Turkish manufacturers.',
+        logo: '/assets/logos/al-sanidan.png',
+        desc: 'Premium Sharjah furniture showroom offering bedroom, dining, and living room collections — featuring signature Turkish-crafted sets including Bugatti, Milan, Oslo, Lorenzo, and Sahara, with sustainable materials, bespoke customization, and free interior design consultation.',
         link: null,
       },
     ],
@@ -223,15 +237,17 @@ export const MIDLINE_SECTORS: Record<string, Sector> = {
       {
         name: 'ARC Auto Spare Parts Trading LLC',
         tags: ['Dubai, UAE'],
-        type: 'Auto Spare Parts — ISO Certified',
-        desc: 'Deals in: Auto spare parts for Japanese, Korean, and American vehicles — filters, brakes, suspension, electrical, lubricants, and more.',
+        type: 'Auto Spare Parts Trading',
+        logo: '/assets/logos/arc-auto.png',
+        desc: 'UAE-based global auto spare parts trading company connecting international manufacturers with markets across the Middle East — supplying engine components, suspension, body parts, electrical systems, lubricants, and timing systems for Japanese, Korean, and American vehicles.',
         link: 'https://arc-autoparts.com',
       },
       {
         name: 'Almutakbal Alsheesh Ltd',
-        tags: ['Spare Parts'],
-        type: 'Spare Parts',
-        desc: 'Deals in: Spare parts trading across vehicle types and markets.',
+        tags: ['Benghazi, Libya', 'Est. 2020'],
+        type: 'Auto Spare Parts & Service',
+        logo: '/assets/logos/almutakbal.png',
+        desc: 'Benghazi-based automotive company with 5 branches offering spare parts wholesale and retail alongside a full service center — covering mechanical repairs, electrical diagnostics, bodywork, tire services, and wheel alignment for all vehicle types.',
         link: null,
       },
     ],
@@ -246,16 +262,18 @@ export const MIDLINE_SECTORS: Record<string, Sector> = {
       {
         name: 'Trivix',
         tags: ['UAE'],
-        type: 'Pharmaceuticals',
-        desc: 'Deals in: Pharmaceutical products and medicines across the UAE.',
+        type: 'Healthcare Trading & Distribution',
+        logo: '/assets/logos/trivix.png',
+        desc: 'UAE-based multi-segment healthcare trading company distributing pharmaceutical medicines, health supplements, baby care essentials, and surgical/hospital equipment — serving pharmacies, hospitals, wholesalers, and institutional healthcare providers across regional and international markets.',
         link: null,
       },
       {
         name: 'Al Shifa',
-        tags: ['Libya'],
-        type: 'Pharmaceuticals',
-        desc: 'Deals in: Essential medicines and healthcare products for the Libyan market.',
-        link: null,
+        tags: ['Benghazi, Libya'],
+        type: 'Pharmaceutical Distribution',
+        logo: '/assets/logos/al-shifa.png',
+        desc: 'Libya-registered pharmaceutical distributor with branches in Benghazi, Tripoli, and Misrata — supplying prescription medicines, OTC products, and medical consumables to hospitals, clinics, and pharmacies nationwide through certified cold-chain warehousing and a professional field team.',
+        link: 'https://shifaa-pharma.com',
       },
     ],
   },
@@ -338,6 +356,38 @@ export const GLOBAL_PRESENCE = [
   { flag: '🇨🇦', country: 'Canada', role: 'North America', isHQ: false },
   { flag: '🇺🇸', country: 'USA', role: 'North America', isHQ: false },
 ]
+
+export function companySlug(name: string): string {
+  return name
+    .toLowerCase()
+    .replace(/&/g, ' and ')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+}
+
+export interface CompanyLookup {
+  company: Company
+  sectorSlug: string
+  sectorTitle: string
+}
+
+export function getCompanyBySlug(slug: string): CompanyLookup | null {
+  for (const [sectorSlug, sector] of Object.entries(MIDLINE_SECTORS)) {
+    const company = sector.companies.find((c) => companySlug(c.name) === slug)
+    if (company) {
+      return {
+        company,
+        sectorSlug,
+        sectorTitle: sector.title.replace(/<[^>]*>/g, ''),
+      }
+    }
+  }
+  return null
+}
+
+export function getAllCompanySlugs(): string[] {
+  return Object.values(MIDLINE_SECTORS).flatMap((s) => s.companies.map((c) => companySlug(c.name)))
+}
 
 export const SITE_META = {
   name: 'Midline Investment',

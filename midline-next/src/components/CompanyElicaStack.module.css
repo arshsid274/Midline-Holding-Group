@@ -17,17 +17,17 @@
 
 .stickyLabelText {
   font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.22em;
+  font-size: 12px;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--slate);
 }
 
 .stickyCounter {
   font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.14em;
-  color: rgba(62, 99, 126, 0.45);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  color: rgba(62, 99, 126, 0.55);
 }
 
 /* Each company slide — matches ElicaCards .elica__slide */
@@ -78,20 +78,52 @@
   opacity: .04;
 }
 
-/* Top zone — above the absolute bottom section */
+/* Top zone — eyebrow → [logo + title inline] */
 .contentTop {
   position: relative;
   z-index: 1;
   padding: 3em 3em 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.logoTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: nowrap;
+}
+
+.logoPlate {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 18px;
+  background: rgba(255, 255, 255, 0.09);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 14px;
+}
+
+.companyLogo {
+  display: block;
+  max-height: 68px;
+  max-width: 210px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
 }
 
 .eyebrow {
   font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.22em;
+  font-size: 12px;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: rgba(80, 207, 254, 0.7);
-  margin-bottom: 14px;
+  color: rgba(80, 207, 254, 0.85);
+  margin: 0;
 }
 
 .heading {
@@ -199,8 +231,8 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  max-width: 440px;
+  gap: 16px;
+  max-width: 460px;
 }
 
 .tags {
@@ -211,26 +243,26 @@
 
 .tag {
   font-family: var(--font-mono);
-  font-size: 9px;
-  letter-spacing: 0.14em;
+  font-size: 11px;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgba(80, 207, 254, 0.8);
+  color: rgba(80, 207, 254, 0.9);
   background: rgba(80, 207, 254, 0.10);
-  border: 1px solid rgba(80, 207, 254, 0.18);
-  padding: 5px 12px;
+  border: 1px solid rgba(80, 207, 254, 0.22);
+  padding: 6px 14px;
   border-radius: 999px;
 }
 
 .tagType {
-  color: rgba(255, 255, 255, 0.55);
-  background: rgba(255, 255, 255, 0.07);
-  border-color: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.65);
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.14);
 }
 
 .body {
-  font-size: 14px;
-  line-height: 1.75;
-  color: rgba(255, 255, 255, 0.62);
+  font-size: 15px;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.75);
   margin: 0;
 }
 
@@ -239,11 +271,11 @@
   align-items: center;
   gap: 7px;
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.10em;
   color: #fff;
   text-decoration: none;
-  padding: 10px 20px;
+  padding: 11px 22px;
   border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, 0.28);
   background: rgba(255, 255, 255, 0.06);
@@ -264,9 +296,9 @@
 
 .cardNumber {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 13px;
   letter-spacing: 0.14em;
-  color: rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.30);
 }
 
 @media (max-width: 991px) {
@@ -278,7 +310,9 @@
 @media (max-width: 768px) {
   .slide { height: 98vh; margin-bottom: 5em }
   .stickyLabel { padding: 20px 24px }
-  .contentTop { padding: 2em 1.25em 0 }
+  .contentTop { padding: 2em 1.25em 0; gap: 12px }
+  .companyLogo { max-height: 48px }
+  .logoPlate { padding: 9px 13px }
   .contentBottom { flex-direction: column; padding: 0 1.25em 1.25em; align-items: flex-start }
   .heading { font-size: clamp(1.6rem, 5vw, 2.4rem) }
   .imageWrapSecondary { display: none }

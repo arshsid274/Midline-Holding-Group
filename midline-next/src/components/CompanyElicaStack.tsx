@@ -1,10 +1,11 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+import { useRouter } from 'next/navigation'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { SplitText } from 'gsap/SplitText'
-import type { Company } from '@/lib/data'
+import { type Company, companySlug } from '@/lib/data'
 import styles from './CompanyElicaStack.module.css'
 
 interface Props {
@@ -16,6 +17,7 @@ interface Props {
 export default function CompanyElicaStack({ companies, sectorTitle, totalCompanies }: Props) {
   const sectionRef = useRef<HTMLElement>(null)
   const count = totalCompanies ?? companies.length
+  const router = useRouter()
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger, SplitText)
@@ -124,14 +126,38 @@ export default function CompanyElicaStack({ companies, sectorTitle, totalCompani
       {companies.map((company, i) => (
         <div key={company.name} className={styles.slide}>
           <div className={styles.wrap}>
-            <div className={styles.content}>
+            <div
+              className={styles.content}
+              role="link"
+              tabIndex={0}
+              style={{ cursor: 'pointer' }}
+              onClick={() => router.push(`/companies/${companySlug(company.name)}`)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault()
+                  router.push(`/companies/${companySlug(company.name)}`)
+                }
+              }}
+            >
 
-              {/* ── Top: eyebrow + company name ── */}
+              {/* ── Top: eyebrow → [logo + title inline] ── */}
               <div className={styles.contentTop}>
                 <p className={styles.eyebrow}>{company.type}</p>
-                <h2 data-split-reveal="lines" className={styles.heading}>
-                  {company.name}
-                </h2>
+                <div className={styles.logoTitleRow}>
+                  {company.logo && (
+                    <div className={styles.logoPlate}>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={company.logo}
+                        alt={`${company.name} logo`}
+                        className={styles.companyLogo}
+                      />
+                    </div>
+                  )}
+                  <h2 data-split-reveal="lines" className={styles.heading}>
+                    {company.name}
+                  </h2>
+                </div>
               </div>
 
               {/* ── Bottom: 3-layer media + info (absolutely covers card) ── */}
@@ -207,6 +233,7 @@ export default function CompanyElicaStack({ companies, sectorTitle, totalCompani
                       target="_blank"
                       rel="noopener noreferrer"
                       className={styles.link}
+                      onClick={(e) => e.stopPropagation()}
                     >
                       ↗ {company.link.replace(/https?:\/\//, '')}
                     </a>
