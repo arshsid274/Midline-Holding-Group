@@ -24,7 +24,7 @@ export default function SectorFlipHero({ plainTitle, blurb, companiesCount, icon
   // so the user never sees the inherited scroll position from { scroll: false }.
   // Must be useLayoutEffect (not useEffect) for this to work.
   useLayoutEffect(() => {
-    window.scrollTo(0, 0)
+    window.scrollTo({ top: 0, behavior: 'instant' })
   }, [])
 
   // Kick off FLIP on mount
@@ -95,7 +95,7 @@ export default function SectorFlipHero({ plainTitle, blurb, companiesCount, icon
     if (!origin) { router.back(); return }
 
     // Ensure we're at the top so stored rect coords match the viewport
-    window.scrollTo(0, 0)
+    window.scrollTo({ top: 0, behavior: 'instant' })
     document.body.style.overflow = 'hidden'
 
     // Stop video — it'll be invisible during the reverse

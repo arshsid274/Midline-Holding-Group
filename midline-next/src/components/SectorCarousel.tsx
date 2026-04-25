@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useLayoutEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import {
@@ -14,7 +14,7 @@ import {
   Pill,
   type LucideIcon,
 } from 'lucide-react'
-import { setFlipOrigin } from '@/lib/flipState'
+import { setFlipOrigin, saveCarouselScroll, consumeCarouselScroll } from '@/lib/flipState'
 
 type Sector = {
   id: number
@@ -92,6 +92,31 @@ export default function SectorCarousel() {
   const scrollLeftRef = useRef(0)
   const hasDragged    = useRef(false)
 
+  // Restore carousel scroll position when navigating back from a sector page.
+  // useLayoutEffect fires before the browser paints, so the carousel is already
+  // at the correct position when the bridge overlay fades out — no visible jump.
+  useLayoutEffect(() => {
+    const saved = consumeCarouselScroll()
+    if (saved !== null && carouselRef.current) {
+      carouselRef.current.scrollLeft = saved
+      const el = carouselRef.current
+      const ratio = el.scrollLeft / (el.scrollWidth - el.clientWidth)
+      setActiveIndex(Math.min(SECTORS.length - 1, Math.max(0, Math.round((ratio || 0) * (SECTORS.length - 1)))))
+    }
+  }, [])
+
+  // Fade out the bridge overlay injected by SectorFlipHero.handleBack.
+  // The bridge covers the screen during router.back(); we dissolve it here
+  // once the carousel has mounted and the scroll position is restored.
+  useEffect(() => {
+    const bridge = document.getElementById('flip-bridge')
+    if (!bridge) return
+    bridge.style.transition = 'opacity 0.35s ease'
+    bridge.style.opacity = '0'
+    const t = setTimeout(() => bridge.remove(), 380)
+    return () => clearTimeout(t)
+  }, [])
+
   // Reveal glass cards when section enters viewport
   useEffect(() => {
     const el = sectionRef.current
@@ -148,6 +173,10 @@ export default function SectorCarousel() {
 
     // Capture rect BEFORE any scroll change so coordinates are correct
     const rect = imgEl.getBoundingClientRect()
+
+    // Save horizontal scroll so the carousel can restore it on back navigation,
+    // ensuring the FLIP reverse animation lands on a visible card.
+    saveCarouselScroll(carouselRef.current?.scrollLeft ?? 0)
 
     // Paint bridge — covers both the home-page scroll-snap and the page transition
     const bridge = document.createElement('div')

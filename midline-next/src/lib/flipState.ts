@@ -11,6 +11,7 @@ export type FlipOrigin = {
 }
 
 let _origin: FlipOrigin | null = null
+let _carouselScroll: number | null = null
 
 export const setFlipOrigin = (data: FlipOrigin): void => { _origin = data }
 
@@ -18,4 +19,12 @@ export const consumeFlipOrigin = (): FlipOrigin | null => {
   const data = _origin
   _origin = null
   return data
+}
+
+export const saveCarouselScroll = (left: number): void => { _carouselScroll = left }
+
+export const consumeCarouselScroll = (): number | null => {
+  const s = _carouselScroll
+  _carouselScroll = null
+  return s
 }
