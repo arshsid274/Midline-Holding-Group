@@ -30,10 +30,13 @@ interface CompanyInfoPagesProps {
   companyName?: string
   sectorTitle?: string
   sectorSlug?: string
+  /** Company logo URL (e.g. /assets/logos/midline-aviation.png).
+   *  If omitted, the Ssangyong placeholder logo + wordmark are kept. */
+  logo?: string
   content?: CompanyContent
 }
 
-export default function CompanyInfoPages({ companyName, sectorTitle, sectorSlug, content }: CompanyInfoPagesProps = {}) {
+export default function CompanyInfoPages({ companyName, sectorTitle, sectorSlug, logo, content }: CompanyInfoPagesProps = {}) {
   const router = useRouter()
   const containerRef = useRef<HTMLDivElement>(null)
   const swiperInitialized = useRef(false)
@@ -495,7 +498,10 @@ export default function CompanyInfoPages({ companyName, sectorTitle, sectorSlug,
                               <div className="circle2_wrap">
                                 <span className="circle2"></span>
                                 <div className="center_clip">
-                                  <div className="group_logo"></div>
+                                  <div
+                                    className="group_logo"
+                                    style={logo ? { backgroundImage: `url('${logo}')`, backgroundSize: 'contain', backgroundRepeat: 'no-repeat', backgroundPosition: 'center' } : undefined}
+                                  ></div>
                                   <div className="clip_mask">
                                     <video className="bg_video" autoPlay muted loop playsInline>
                                       <source src={`${IMG}/company/about/circle_video.mp4`} type="video/mp4" />
@@ -507,8 +513,16 @@ export default function CompanyInfoPages({ companyName, sectorTitle, sectorSlug,
                             </div>
                           </div>
                           <div className="flex-item right">
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img src={`${IMG}/company/about/enc_logo.svg`} alt="SSANGYONG E&C" />
+                            {logo ? (
+                              <div className="cip-brand">
+                                {/* eslint-disable-next-line @next/next/no-img-element */}
+                                <img className="cip-brand-logo" src={logo} alt={companyName ?? ''} />
+                                {companyName && <h3 className="cip-brand-name">{companyName}</h3>}
+                              </div>
+                            ) : (
+                              /* eslint-disable-next-line @next/next/no-img-element */
+                              <img src={`${IMG}/company/about/enc_logo.svg`} alt="SSANGYONG E&C" />
+                            )}
                             <div className="text_box">
                               <span className="line"></span>
                               <p className="bold">
