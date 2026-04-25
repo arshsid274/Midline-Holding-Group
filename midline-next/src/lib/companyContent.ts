@@ -569,6 +569,186 @@ export const COMPANY_CONTENT: Record<string, CompanyContent> = {
       'To become a leading beauty and fragrance company in Libya and the region — recognised for innovation, accessibility, and excellence.',
   },
 
+  'al-dabousiya-mineral-water-bottling-company': {
+    tagline: 'Pure, safe, naturally balanced mineral water.',
+    overview: [
+      'Established in 2018, Al-Dabussia for bottling Mineral Water Company has positioned itself as a trusted provider of premium-quality drinking water — committed to meeting and exceeding international standards of safety, purity, and excellence.',
+      'From inception, the company has focused on a product that reflects natural integrity and technological precision, ensuring consistent quality for consumers across all markets it serves. Naturally sourced mineral water with balanced composition, treated through advanced UV and ozone systems, bottled in a fully automated facility.',
+    ],
+    missionHeading: 'Pure water, engineered for trust.',
+    missionBody:
+      'ISO 9001 quality management, ISO 22000 food safety, GMP and HACCP frameworks — every stage from sourcing to distribution monitored for product integrity. UV and ozone sterilization deliver crystal-clear, safe, high-quality drinking water without altering the natural mineral profile.',
+    facts: [
+      {
+        stat: 'ISO 9001',
+        title: 'Quality management system',
+        body:
+          'Consistent operational excellence and continuous improvement across every process — sourcing, treatment, bottling, labelling, distribution.',
+      },
+      {
+        stat: 'ISO 22000',
+        title: 'Food safety system',
+        body:
+          'Highest standards of food safety throughout the entire production and supply chain — backed by GMP and HACCP frameworks.',
+      },
+      {
+        stat: 'UV + Ozone',
+        title: 'Twin sterilization',
+        body:
+          'Ultraviolet sterilization eliminates microorganisms without altering composition. Ozone sterilization adds a second disinfection layer for complete contaminant removal.',
+      },
+      {
+        stat: 'Lab',
+        title: 'In-facility microbiological testing',
+        body:
+          'State-of-the-art microbiological lab on site — continuous monitoring, regular microbiological and chemical testing, immediate corrective actions.',
+      },
+      {
+        stat: 'Auto',
+        title: 'Fully automated bottling',
+        body:
+          'Precision filling and sealing, consistency across every product size, high efficiency — automation minimises human intervention and maximises hygiene.',
+      },
+    ],
+    visionQuote:
+      'To expand our presence in the water industry by increasing production capacity and delivering innovative, high-quality bottled water solutions for modern consumers.',
+  },
+
+  'al-sarh-engineering-consultant': {
+    tagline: 'Engineering precision. Integrated design. Reliable execution.',
+    overview: [
+      'Al Sarh Engineering Consultancy is a UAE-based engineering consultancy firm established in 2023, specialising in integrated and multidisciplinary engineering solutions across the built environment sector — comprehensive design, supervision, and consultancy for residential, commercial, and mixed-use developments.',
+      'Each project is approached as a coordinated system where architectural, structural, and environmental elements develop in harmony — ensuring functional efficiency, structural integrity, design consistency, regulatory compliance, and construction feasibility.',
+    ],
+    missionHeading: 'Design intelligence meets execution awareness.',
+    missionBody:
+      'Conceptual and detailed architectural design, structural analysis, coordinated multidisciplinary development, authority submission, and design optimisation for constructability — every output developed to balance aesthetic identity, structural safety, and functional performance.',
+    facts: [
+      {
+        stat: 'Design',
+        title: 'Architectural + structural integration',
+        body:
+          'Conceptual to detailed architectural design, structural analysis, coordinated multidisciplinary development, authority submissions, and design optimisation for efficiency and constructability.',
+      },
+      {
+        stat: 'Site',
+        title: 'Engineering supervision',
+        body:
+          'Site supervision and technical inspections, quality assurance, contractor coordination, progress tracking, and resolution of technical site issues — controlled execution to engineering standards.',
+      },
+      {
+        stat: 'Interiors',
+        title: 'Spatial efficiency + identity',
+        body:
+          'Space planning, interior concept development, material and finishing selection, lighting and ambiance, and execution-ready detailing — comfort, function, and aesthetic value combined.',
+      },
+      {
+        stat: 'Landscape',
+        title: 'Outdoor environment design',
+        body:
+          'Landscape master planning, soft- and hardscape design, outdoor circulation, environmental integration, and sustainability — outdoor spaces that complement the built form.',
+      },
+      {
+        stat: 'UAE',
+        title: 'Regulatory expertise',
+        body:
+          'Strong understanding of UAE regulatory requirements, multidisciplinary coordination expertise, focus on constructability and execution efficiency, attention to technical detail.',
+      },
+    ],
+    visionQuote:
+      'To be a recognised engineering consultancy in the United Arab Emirates — known for innovative, coordinated, and high-quality engineering solutions aligned with international standards.',
+  },
+
+  'saegon-contraction-llc': {
+    tagline: 'Construction with discipline, reliability, and strength.',
+    overview: [
+      'SAEGON CONTRACTING L.L.C is a UAE-based building contracting company established in 2016, operating within the country\'s dynamic construction sector. The company has built a solid reputation for delivering reliable, cost-effective, quality-driven construction across residential, commercial, and industrial developments.',
+      'With a dedicated workforce of over 200 skilled laborers and technical staff, SAEGON is well-positioned to execute a wide range of construction projects with efficiency, discipline, and technical competence — aligned with UAE regulations, engineering specifications, and client expectations.',
+    ],
+    missionHeading: 'Disciplined execution, dependable delivery.',
+    missionBody:
+      'Proper planning and execution sequencing, strict adherence to engineering drawings, continuous site supervision and quality control, coordination between technical teams and workforce, and efficient use of materials — applied consistently across every project, every site.',
+    facts: [
+      {
+        stat: '200+',
+        title: 'Skilled workforce',
+        body:
+          'Masons, carpenters, steel fixers, concrete workers, site technicians, supervisors, and engineers — discipline and on-site safety practices ensure smooth execution.',
+      },
+      {
+        stat: '2016',
+        title: 'Established UAE contractor',
+        body:
+          'Operating since 2016 within the UAE construction sector — solid reputation for reliability, cost-effectiveness, and quality-driven solutions.',
+      },
+      {
+        stat: 'Residential',
+        title: 'Building & housing',
+        body:
+          'Residential building construction with attention to structural safety, modern design execution, and lasting living quality.',
+      },
+      {
+        stat: 'Industrial',
+        title: 'Commercial + warehouses',
+        body:
+          'Commercial buildings, retail spaces, mixed-use developments, warehouses, factories, and industrial facilities — designed for operational efficiency and durability.',
+      },
+      {
+        stat: 'GC',
+        title: 'General contracting',
+        body:
+          'Site preparation, structural works, finishing — comprehensive contracting covering full project execution under one accountable team.',
+      },
+    ],
+    visionQuote:
+      'To be a recognised and dependable construction contracting company in the United Arab Emirates — delivering high-quality, reliable, and efficient construction services.',
+  },
+
+  'shahd-al-madina': {
+    tagline: 'Quality manufacturing. Trusted taste. Everyday nourishment.',
+    overview: [
+      'Shahd Al Madina is a UAE-based food manufacturing company specialising in high-quality beverages and packaged food products for regional and international markets — juices, flavoured milk, evaporated milk, and canned tuna, all developed for taste consistency, nutritional value, and international quality standards.',
+      'Operating with a strong commitment to food safety, product innovation, and reliable production processes, Shahd Al Madina is a growing player in the fast-moving consumer goods sector — serving retail, wholesale, food service, and export markets.',
+    ],
+    missionHeading: 'Hygienic, scalable, consumer-ready production.',
+    missionBody:
+      'Strict hygiene protocols in production facilities, raw material quality inspection, standardised manufacturing procedures, regular quality testing and monitoring, and full compliance with international food safety requirements — ensuring every product meets consumer safety expectations.',
+    facts: [
+      {
+        stat: 'Juice',
+        title: 'Fruit juices & beverages',
+        body:
+          'Fruit juices and juice-based beverages with attention to taste consistency, nutritional value, and international quality standards.',
+      },
+      {
+        stat: 'Dairy',
+        title: 'Flavoured & evaporated milk',
+        body:
+          'Flavoured milk and evaporated milk products — long shelf-life, consistent taste, and nutritional value for everyday consumer needs.',
+      },
+      {
+        stat: 'Tuna',
+        title: 'Canned seafood',
+        body:
+          'Canned tuna and seafood products manufactured to FMCG quality standards with secure packaging and long-term stability.',
+      },
+      {
+        stat: 'FMCG',
+        title: 'Multi-channel reach',
+        body:
+          'Retail markets, wholesale distributors, export markets, food service, and institutional buyers — positioned for growth across regional and international markets.',
+      },
+      {
+        stat: 'QA',
+        title: 'Food safety system',
+        body:
+          'Strict hygiene protocols, raw material inspection, standardised manufacturing, regular quality testing, and compliance with international food safety requirements.',
+      },
+    ],
+    visionQuote:
+      'To be a recognised food manufacturing brand in the UAE and international markets — delivering trusted, high-quality, and affordable FMCG food products.',
+  },
+
   'al-sanidan-furniture-showroom': {
     tagline: 'Crafting Spaces. Defining Lifestyles.',
     overview: [
@@ -638,9 +818,9 @@ export const SECTOR_MEDIA: Record<string, SectorMedia> = {
   perfumes:    { photo: '/assets/sectors/perfumes.png',    video: '/assets/sectors/perfumes.mp4' },
   furniture:   { photo: '/assets/sectors/furniture.png',   video: '/assets/sectors/furniture.mp4' },
   spareparts:  { photo: '/assets/sectors/spareparts.png',  video: '/assets/sectors/spareparts.mp4' },
-  construction:{ photo: PLACEHOLDER_PHOTO,                 video: FALLBACK_VIDEO },
-  oilgas:      { photo: PLACEHOLDER_PHOTO,                 video: FALLBACK_VIDEO },
-  pharma:      { photo: PLACEHOLDER_PHOTO,                 video: FALLBACK_VIDEO },
+  construction:{ photo: '/assets/sectors/construction.png',video: '/assets/sectors/construction.mp4' },
+  oilgas:      { photo: '/assets/sectors/oilgas.png',      video: '/assets/sectors/oilgas.mp4' },
+  pharma:      { photo: '/assets/sectors/pharma.png',      video: '/assets/sectors/pharma.mp4' },
 }
 
 export function getSectorMedia(sectorKey: string | undefined): SectorMedia {

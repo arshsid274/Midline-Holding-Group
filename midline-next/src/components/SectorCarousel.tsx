@@ -39,7 +39,8 @@ const SECTORS: Sector[] = [
     id: 2, Icon: HardHat, name: 'Construction & Contracting',
     desc: 'General contracting, architecture, civil engineering, and real estate across UAE.',
     count: '5 COMPANIES', slug: 'construction',
-    img: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?q=80&w=1200&auto=format&fit=crop',
+    img: '/assets/sectors/construction.png',
+    video: '/assets/sectors/construction.mp4',
   },
   {
     id: 3, Icon: Apple, name: 'Food Industry',
@@ -52,7 +53,8 @@ const SECTORS: Sector[] = [
     id: 4, Icon: Flame, name: 'Oil & Gas Services',
     desc: 'Petroleum services, exploration support, logistics and supply chain management.',
     count: '3 COMPANIES', slug: 'oilgas',
-    img: 'https://images.unsplash.com/photo-1518709766631-a6a7f45921c3?q=80&w=1200&auto=format&fit=crop',
+    img: '/assets/sectors/oilgas.png',
+    video: '/assets/sectors/oilgas.mp4',
   },
   {
     id: 5, Icon: Sparkles, name: 'Perfumes & Beauty',
@@ -79,7 +81,8 @@ const SECTORS: Sector[] = [
     id: 8, Icon: Pill, name: 'Pharma Industry',
     desc: 'Pharmaceutical manufacturing and distribution across UAE and Libya.',
     count: '2 COMPANIES', slug: 'pharma',
-    img: 'https://images.unsplash.com/photo-1585435557343-3b092031a831?q=80&w=1200&auto=format&fit=crop',
+    img: '/assets/sectors/pharma.png',
+    video: '/assets/sectors/pharma.mp4',
   },
 ]
 

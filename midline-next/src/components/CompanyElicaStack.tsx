@@ -68,6 +68,10 @@ export default function CompanyElicaStack({ companies, sectorTitle, totalCompani
       })
 
       // ── Image/video parallax reveal ──
+      // `once: true` so the entrance plays exactly once — without it, fast-scrolling
+      // past a slide could leave its wraps stuck at the gsap.from start state
+      // (opacity:0, translated off-position) because GSAP's scroll-state can
+      // desync on rapid scroll jumps.
       slides.forEach((slide) => {
         const wraps = slide.querySelectorAll<HTMLElement>(`.${styles.imageWrap}`)
         if (!wraps.length) return
@@ -79,7 +83,7 @@ export default function CompanyElicaStack({ companies, sectorTitle, totalCompani
           ease: 'expo.out',
           duration: 1.8,
           stagger: 0.1,
-          scrollTrigger: { trigger: slide, start: 'top center' },
+          scrollTrigger: { trigger: slide, start: 'top center', once: true },
         })
       })
 
@@ -163,59 +167,50 @@ export default function CompanyElicaStack({ companies, sectorTitle, totalCompani
               {/* ── Bottom: 3-layer media + info (absolutely covers card) ── */}
               <div className={styles.contentBottom}>
 
-                {/* Media cluster — primary in flow, secondary/tertiary float absolutely */}
+                {/* Media cluster — primary in flow, secondary/tertiary float absolutely.
+                 *
+                 * Each of the three slots can render either an <img> or a <video>, decided
+                 * by file extension. Wiring is data-driven via `company.photos`:
+                 *   slot[0] (primary)   = company.photos[0]
+                 *   slot[1] (secondary) = company.photos[1]
+                 *   slot[2] (tertiary)  = company.photos[2]
+                 * Falls back to (company.photo, company.video) for backward compatibility. */}
                 <div className={styles.contentImages}>
-
-                  {/* Primary — sits in flex flow at card bottom-left */}
-                  <div
-                    data-x="0"
-                    data-y="50"
-                    className={`${styles.imageWrap} ${styles.imageWrapMain}`}
-                  >
-                    {company.video ? (
-                      <video
-                        muted playsInline loop autoPlay
-                        className={styles.cardVideo}
-                        src={company.video}
-                        poster={company.photo ?? undefined}
-                      />
-                    ) : company.photo ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img src={company.photo} alt={company.name} loading="lazy" className={styles.cardImage} />
-                    ) : (
-                      <div className={styles.cardPlaceholder}>
-                        {company.name.slice(0, 2).toUpperCase()}
+                  {[
+                    { wrap: `${styles.imageWrap} ${styles.imageWrapMain}`,      placeholder: styles.cardPlaceholder,                         dx: '0',   dy: '50'  },
+                    { wrap: `${styles.imageWrap} ${styles.imageWrapSecondary}`, placeholder: `${styles.cardPlaceholder} ${styles.cardPlaceholderB}`, dx: '-30', dy: '100' },
+                    { wrap: `${styles.imageWrap} ${styles.imageWrapTertiary}`,  placeholder: `${styles.cardPlaceholder} ${styles.cardPlaceholderC}`, dx: '-60', dy: '120' },
+                  ].map((slot, idx) => {
+                    // Per-company media only — sector media is reserved for the
+                    // SECTOR pages (hero + carousel), never used as filler in a
+                    // company card. Companies without their own photos/video
+                    // render as placeholders until media is supplied.
+                    const src =
+                      company.photos?.[idx] ??
+                      (idx === 0 ? company.photo ?? company.video : undefined)
+                    const isVideo = !!src && /\.(mp4|mov|webm|m4v)$/i.test(src)
+                    return (
+                      <div key={idx} data-x={slot.dx} data-y={slot.dy} className={slot.wrap}>
+                        {src ? (
+                          isVideo ? (
+                            <video
+                              muted playsInline loop autoPlay
+                              className={styles.cardVideo}
+                              src={src}
+                              poster={company.photo ?? undefined}
+                            />
+                          ) : (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img src={src} alt={idx === 0 ? company.name : ''} loading="lazy" className={styles.cardImage} />
+                          )
+                        ) : idx === 0 && !company.photos?.length ? (
+                          <div className={slot.placeholder}>{company.name.slice(0, 2).toUpperCase()}</div>
+                        ) : (
+                          <div className={slot.placeholder} />
+                        )}
                       </div>
-                    )}
-                  </div>
-
-                  {/* Secondary — floats above and to the right of primary */}
-                  <div
-                    data-x="-30"
-                    data-y="100"
-                    className={`${styles.imageWrap} ${styles.imageWrapSecondary}`}
-                  >
-                    {company.photos?.[0] ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img src={company.photos[0]} alt="" loading="lazy" className={styles.cardImage} />
-                    ) : (
-                      <div className={`${styles.cardPlaceholder} ${styles.cardPlaceholderB}`} />
-                    )}
-                  </div>
-
-                  {/* Tertiary — floats further right and higher */}
-                  <div
-                    data-x="-60"
-                    data-y="120"
-                    className={`${styles.imageWrap} ${styles.imageWrapTertiary}`}
-                  >
-                    {company.photos?.[1] ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img src={company.photos[1]} alt="" loading="lazy" className={styles.cardImage} />
-                    ) : (
-                      <div className={`${styles.cardPlaceholder} ${styles.cardPlaceholderC}`} />
-                    )}
-                  </div>
+                    )
+                  })}
                 </div>
 
                 {/* Right: tags + desc + link + index */}
